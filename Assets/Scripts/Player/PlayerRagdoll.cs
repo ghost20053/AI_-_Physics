@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerRagdoll : MonoBehaviour
 {
@@ -51,20 +52,8 @@ public class PlayerRagdoll : MonoBehaviour
     // Called after ragdollDuration to exit ragdoll state
     private void ExitRagdoll()
     {
-        // Disable ragdoll mode
-        SetRagdoll(false);
-
-        // Reset the player's rotation so they're upright again
-        Vector3 forward = Vector3.ProjectOnPlane(transform.forward, Vector3.up).normalized;
-
-        // Fallback if forward vector is too small
-        if (forward.sqrMagnitude < 0.01f)
-        {
-            forward = Vector3.forward;
-        }
-
-        // Rotate the player upright, preserving forward direction
-        transform.rotation = Quaternion.LookRotation(forward, Vector3.up);
+        // Reload Scene
+        SceneManager.LoadScene("SampleScene");
     }
 
     // Toggles between ragdoll and normal mode
