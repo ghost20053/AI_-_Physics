@@ -22,6 +22,9 @@ public class Prospector_AI : MonoBehaviour
 
     private float waitTimer = 0f;
 
+    public float fireRate = 0.5f;
+    private float nextFire = 0.0f;
+
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -102,13 +105,22 @@ public class Prospector_AI : MonoBehaviour
     {
         if (projectilePrefab && projectileSpawnPoint)
         {
-            GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, Quaternion.identity);
-            Rigidbody rb = projectile.GetComponent<Rigidbody>();
-
-            if (rb)
+            // Fire Rate between projectiles
+            if (Time.time > nextFire)
             {
-                Vector3 direction = (target - projectileSpawnPoint.position).normalized;
-                rb.AddForce(direction * projectileForce, ForceMode.VelocityChange);
+                nextFire = Time.time + fireRate;
+                Instantiate(projectilePrefab, transform.position, transform.rotation);
+                
+                // Firing Projectile
+                GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, Quaternion.identity);
+                Rigidbody rb = projectile.GetComponent<Rigidbody>();
+
+                // Direction the projectile will go
+                if (rb)
+                {
+                    Vector3 direction = (target - projectileSpawnPoint.position).normalized;
+                    rb.AddForce(direction * projectileForce, ForceMode.VelocityChange);
+                }
             }
         }
     }

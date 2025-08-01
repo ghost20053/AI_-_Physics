@@ -26,8 +26,8 @@ public class ExplosiveProjectile : MonoBehaviour
                 rb.AddExplosionForce(explosionForce, transform.position, explosionRadius);
             }
         }
+       
 
-        Destroy(gameObject);
-        //Destroy(Player);
+       Destroy(gameObject);
     }
 }

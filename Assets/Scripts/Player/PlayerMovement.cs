@@ -77,9 +77,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    /// <summary>
-    /// Handles walking, sprinting, crouching and jumping.
-    /// </summary>
+    // Handles walking, sprinting, crouching and jumping.
     private void HandleMovement()
     {
         Vector2 input = actionMovement.ReadValue<Vector2>();
@@ -108,9 +106,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Applies gravity to the movement direction.
-    /// </summary>
+    // Applies gravity to the movement direction.
     private void ApplyGravity()
     {
         if (!playerController.isGrounded)
@@ -123,9 +119,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Notifies nearby enemies that a sound was made.
-    /// </summary>
+    // Notifies nearby enemies that a sound was made.
     private void MakeNoise()
     {
         Collider[] hits = Physics.OverlapSphere(transform.position, soundRadius);
@@ -139,12 +133,11 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Draws the sound radius in the editor.
-    /// </summary>
+    // Draws the sound radius in the editor.
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, soundRadius);
     }
+
 }

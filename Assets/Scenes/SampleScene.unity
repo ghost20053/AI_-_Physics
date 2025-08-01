@@ -269,6 +269,37 @@ MonoBehaviour:
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
+--- !u!1 &96165324
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 96165325}
+  m_Layer: 0
+  m_Name: SceneManger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &96165325
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 96165324}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5.385482, y: -6.0044456, z: 10.381994}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &116936595
 GameObject:
   m_ObjectHideFlags: 0
@@ -429,7 +460,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2184061901812121586, guid: 0bfb5cbf6194a6a4c8027f0e83365819, type: 3}
       propertyPath: soundRadius
-      value: 25
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2184061901812121586, guid: 0bfb5cbf6194a6a4c8027f0e83365819, type: 3}
+      propertyPath: playerJumpForce
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3507484076783574709, guid: 0bfb5cbf6194a6a4c8027f0e83365819, type: 3}
       propertyPath: m_LocalScale.x
@@ -2355,6 +2390,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2754030596849789748, guid: 717cdc5170c18fe47a0bcc405ec11971, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
     - target: {fileID: 2784230889131545006, guid: 717cdc5170c18fe47a0bcc405ec11971, type: 3}
       propertyPath: m_Name
       value: Prospector
@@ -2368,8 +2407,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6840408190207636392, guid: 717cdc5170c18fe47a0bcc405ec11971, type: 3}
+      propertyPath: fireRate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6840408190207636392, guid: 717cdc5170c18fe47a0bcc405ec11971, type: 3}
       propertyPath: hearingRange
-      value: 25
+      value: 76.9
       objectReference: {fileID: 0}
     - target: {fileID: 6840408190207636392, guid: 717cdc5170c18fe47a0bcc405ec11971, type: 3}
       propertyPath: projectileForce
@@ -2441,3 +2484,4 @@ SceneRoots:
   - {fileID: 116936599}
   - {fileID: 1815072014850913905}
   - {fileID: 399193402}
+  - {fileID: 96165325}
