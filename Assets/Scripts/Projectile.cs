@@ -1,12 +1,11 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ExplosiveProjectile : MonoBehaviour
+public class Projectile : MonoBehaviour
 {
     public float explosionRadius = 5f;
     public float explosionForce = 500f;
     public GameObject explosionEffect;
-    public GameObject Player;
 
     void OnCollisionEnter(Collision collision)
     {
@@ -25,9 +24,16 @@ public class ExplosiveProjectile : MonoBehaviour
             {
                 rb.AddExplosionForce(explosionForce, transform.position, explosionRadius);
             }
-        }
-       
 
-       Destroy(gameObject);
+            // Apply ragdoll knockback if it's the player
+            PlayerRagdoll player = nearby.GetComponentInParent<PlayerRagdoll>();
+            if (player != null)
+            {
+                Vector3 forceDir = (nearby.transform.position - transform.position).normalized;
+                player.EnterRagdoll(forceDir * explosionForce);
+            }
+        }
+
+        Destroy(gameObject);
     }
 }

@@ -38,6 +38,8 @@ public class PlayerMovement : MonoBehaviour
     private float footstepTimer = 0f;     // Add this at class level
     private float footstepInterval = 0.5f; // Adjust this value as needed
 
+    private PlayerRagdoll playerRagdoll;
+
     void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
@@ -49,22 +51,30 @@ public class PlayerMovement : MonoBehaviour
         actionSprint = playerInput.actions["Sprint"];
         actionCrouch = playerInput.actions["Crouch"];
         actionInteract = playerInput.actions["Interact"];
+
+        playerRagdoll = GetComponent<PlayerRagdoll>();
+
     }
 
     void Update()
     {
-        // 1. Determine player movement input and update playerIsMoving
+        // Prevent movement if in ragdoll
+        if (playerRagdoll != null && playerRagdoll.IsRagdoll)
+        {
+            return;
+        }
+        // Determine player movement input and update playerIsMoving
         Vector2 input = actionMovement.ReadValue<Vector2>();
         playerIsMoving = input.magnitude > 0.1f;
 
-        // 2. Handle movement and gravity (your existing methods)
+        // Handle movement and gravity (your existing methods)
         HandleMovement();
         ApplyGravity();
 
-        // 3. Move the player controller
+        // Move the player controller
         playerController.Move(moveDirection * Time.deltaTime);
 
-        // 4. Footstep noise generation when player is moving on the ground
+        // Footstep noise generation when player is moving on the ground
         if (playerController.isGrounded && playerIsMoving)
         {
             footstepTimer += Time.deltaTime;
