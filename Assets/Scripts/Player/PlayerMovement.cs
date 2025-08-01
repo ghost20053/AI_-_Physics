@@ -43,7 +43,8 @@ public class PlayerMovement : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
 
         // Link actions from Input System
-        actionMovement = playerInput.actions["Move"];
+        InputAction inputAction = playerInput.actions["Move"];
+        actionMovement = inputAction;
         actionJump = playerInput.actions["Jump"];
         actionSprint = playerInput.actions["Sprint"];
         actionCrouch = playerInput.actions["Crouch"];

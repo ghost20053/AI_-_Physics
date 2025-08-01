@@ -125,6 +125,7 @@ MonoBehaviour:
   explosionRadius: 5
   explosionForce: 500
   explosionEffect: {fileID: 0}
+  Player: {fileID: 1074942244043289433, guid: 0bfb5cbf6194a6a4c8027f0e83365819, type: 3}
 --- !u!54 &216636626935907425
 Rigidbody:
   m_ObjectHideFlags: 0

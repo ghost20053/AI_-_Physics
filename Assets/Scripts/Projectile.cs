@@ -6,6 +6,7 @@ public class ExplosiveProjectile : MonoBehaviour
     public float explosionRadius = 5f;
     public float explosionForce = 500f;
     public GameObject explosionEffect;
+    public GameObject Player;
 
     void OnCollisionEnter(Collision collision)
     {
@@ -26,7 +27,7 @@ public class ExplosiveProjectile : MonoBehaviour
             }
         }
 
-        SceneManager.LoadScene(' ');
-        //Destroy(gameObject);
+        Destroy(gameObject);
+        //Destroy(Player);
     }
 }
