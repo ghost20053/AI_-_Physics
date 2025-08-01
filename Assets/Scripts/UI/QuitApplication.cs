@@ -8,7 +8,7 @@ public class QuitApplication : MonoBehaviour
         Application.Quit();
 
         //Stop playing the scene
-        UnityEditor.EditorApplication.isPlaying = false;
+        //UnityEditor.EditorApplication.isPlaying = false;
 
     }
 }
