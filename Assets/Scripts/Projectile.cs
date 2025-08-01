@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ExplosiveProjectile : MonoBehaviour
 {
@@ -25,6 +26,7 @@ public class ExplosiveProjectile : MonoBehaviour
             }
         }
 
-        Destroy(gameObject);
+        SceneManager.LoadScene(' ');
+        //Destroy(gameObject);
     }
 }

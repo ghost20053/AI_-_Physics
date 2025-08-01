@@ -46,9 +46,8 @@ public class Prospector_AI : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Picks a random point within patrol radius and moves there
-    /// </summary>
+    // Picks a random point within patrol radius and moves there
+ 
     void ChooseNewPatrolPoint()
     {
         Vector3 randomDirection = Random.insideUnitSphere * patrolRadius;
@@ -61,10 +60,8 @@ public class Prospector_AI : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Called externally when the enemy hears a sound
-    /// </summary>
-    /// <param name="soundPos">The world position of the sound</param>
+
+    //Called externally when the enemy hears a sound
     public void HearSound(Vector3 soundPos)
     {
         if (Vector3.Distance(transform.position, soundPos) <= hearingRange)
@@ -73,9 +70,7 @@ public class Prospector_AI : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Coroutine that stops the enemy, faces the sound, and throws a projectile
-    /// </summary>
+    // Coroutine that stops the enemy, faces the sound, and throws a projectile
     IEnumerator ReactToSound(Vector3 soundPos)
     {
         isHearingSound = true;
@@ -102,9 +97,7 @@ public class Prospector_AI : MonoBehaviour
         isHearingSound = false;
     }
 
-    /// <summary>
-    /// Spawns and launches a projectile toward the sound position
-    /// </summary>
+    // Spawns and launches a projectile toward the sound position
     void ThrowProjectile(Vector3 target)
     {
         if (projectilePrefab && projectileSpawnPoint)
