@@ -7,9 +7,11 @@ public class Projectile : MonoBehaviour
     public float explosionForce = 500f;
     public GameObject explosionEffect;
 
+    
+
     void OnCollisionEnter(Collision collision)
     {
-        // Show effect
+        // Show explosion effect
         if (explosionEffect)
         {
             Instantiate(explosionEffect, transform.position, Quaternion.identity);

@@ -132,6 +132,9 @@ MonoBehaviour:
   projectilePrefab: {fileID: 5680938363587573523, guid: 0c01de3093376c84ab7b66b1855988b5, type: 3}
   projectileSpawnPoint: {fileID: 6557828739384018605}
   projectileForce: 20
+  projectileSound: {fileID: 8300000, guid: 1094e88abb7719f4f8b97d27c3ab5b4c, type: 3}
+  soundVolume: 1
+  fireRate: 0.5
 --- !u!195 &6078887777771920360
 NavMeshAgent:
   m_ObjectHideFlags: 0

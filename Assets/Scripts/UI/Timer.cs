@@ -20,7 +20,7 @@ public class Timer : MonoBehaviour
         else if (remainingTime < 0)
         {
             remainingTime = 0;
-            SceneManager.LoadScene("SampleScene");
+            SceneManager.LoadScene("MAZE");
         }
 
         int minutes = Mathf.FloorToInt(remainingTime / 60);

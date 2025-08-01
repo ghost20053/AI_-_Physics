@@ -8,22 +8,24 @@ public class Prospector_AI : MonoBehaviour
     [Header("Patrol Settings")]
     public float patrolRadius = 10f; // How far the enemy will patrol
     public float patrolWaitTime = 2f; // Wait time before choosing new patrol point
+    private float waitTimer = 0f;
 
     [Header("Sound Reaction")]
     public float hearingRange = 15f; // Max distance enemy can hear
     public GameObject projectilePrefab; // Prefab of the explosive projectile
     public Transform projectileSpawnPoint; // Where the projectile is thrown from
     public float projectileForce = 20f;
+    public float fireRate = 0.5f;
+    private float nextFire = 0.0f;
 
     [Header("References")]
     private NavMeshAgent agent;
     private bool isHearingSound = false;
     private Vector3 soundPosition;
 
-    private float waitTimer = 0f;
-
-    public float fireRate = 0.5f;
-    private float nextFire = 0.0f;
+    [Header("Audio")]
+    public AudioClip projectileSound;
+    public float soundVolume = 1.0f;
 
     void Start()
     {
@@ -114,6 +116,7 @@ public class Prospector_AI : MonoBehaviour
                 // Firing Projectile
                 GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, Quaternion.identity);
                 Rigidbody rb = projectile.GetComponent<Rigidbody>();
+                AudioSource.PlayClipAtPoint(projectileSound, transform.position, soundVolume);
 
                 // Direction the projectile will go
                 if (rb)

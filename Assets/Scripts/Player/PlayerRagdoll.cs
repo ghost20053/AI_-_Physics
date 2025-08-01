@@ -11,9 +11,9 @@ public class PlayerRagdoll : MonoBehaviour
 
     public bool IsRagdoll => isRagdoll;
 
-    // Stores the player's rotation and Driection before entering ragdoll
-    private Quaternion originalRotation;
-    private Vector3 originalUpDirection;
+    [Header("Audio")]
+    public AudioClip explosionSound;
+    public float soundVolume = 1.0f;
 
     void Start()
     {
@@ -32,9 +32,11 @@ public class PlayerRagdoll : MonoBehaviour
             return;
         }
 
-        // Save current upright rotation
-        originalRotation = transform.rotation;
-        originalUpDirection = transform.up;
+        // Play Sound at hit position
+        if (explosionSound)
+        {
+            AudioSource.PlayClipAtPoint(explosionSound, transform.position, soundVolume);
+        }
 
         // Enable ragdoll mode
         SetRagdoll(true);
@@ -53,7 +55,7 @@ public class PlayerRagdoll : MonoBehaviour
     private void ExitRagdoll()
     {
         // Reload Scene
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("MAZE");
     }
 
     // Toggles between ragdoll and normal mode

@@ -14,7 +14,7 @@ public class CamFollow : MonoBehaviour
 
    private void Start()
    {
-
+        // Setting cursor visibility and camera locking
       Cursor.visible = false;
 
       Cursor.lockState = CursorLockMode.Locked;
@@ -24,7 +24,13 @@ public class CamFollow : MonoBehaviour
 
    private void Update()
    {
+        // Checking if game is paused
+        if(PauseMenu.isPaused)
+        {
+            return;
+        }
 
+        // If Game not pause move camera with mouse
       float inputX = Input.GetAxis("Mouse X") * playerMouseSens;
       float inputY = Input.GetAxis("Mouse Y") * playerMouseSens;
 
