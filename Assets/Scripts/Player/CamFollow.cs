@@ -10,18 +10,6 @@ public class CamFollow : MonoBehaviour
 
    [SerializeField] float cameraVerticalRotation;
 
-   public bool lockCursor;
-
-   private void Start()
-   {
-        // Setting cursor visibility and camera locking
-      Cursor.visible = false;
-
-      Cursor.lockState = CursorLockMode.Locked;
-
-   }
-
-
    private void Update()
    {
         // Checking if game is paused
