@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 
-public class PlayerGun
+public class PlayerGun : MonoBehaviour
 {
     //bullet
     public GameObject bullet;
@@ -11,10 +11,14 @@ public class PlayerGun
 
     //Gun Stats
     public float TimeBetweenShooting, Spread, ReloadTime, TimeBetweenShots;
-    public int Magazine, BulletsPerTap;
+    public int MagazineSize, BulletsPerTap;
     public bool AllowButtonHold;
 
-    int Bullets, BulletShot;
+    int BulletsLeft, BulletShot;
+
+    //Recoil
+    public Rigidbody playerRb;
+    public float recoilForce;
 
     //Bools
     bool shooting, ReadyToShoot, Reloading;
@@ -22,6 +26,10 @@ public class PlayerGun
     //Reference
     public Camera fpsCam;
     public Transform AttackPoint;
+
+    //Graphics
+    public GameObject muzzleFlash;
+    public TextMeshProUGUI ammunitionDisplay;
 
     //Bug Fixing
     public bool AllowInvoke = true;
@@ -36,6 +44,12 @@ public class PlayerGun
     private void Update()
     {
         MyInput();
+
+        //Set ammo display, if it exists
+        if (ammunitionDisplay != null)
+        {
+            ammunitionDisplay.SetText(BulletsLeft / BulletsPerTap + " / " + MagazineSize / BulletsPerTap);
+        }
     }
 
     private void MyInput()
@@ -51,7 +65,12 @@ public class PlayerGun
         }
 
         //Reloading
-        if (Input.GetKeyDown(KeyCode.R) && BulletsLeft < magazineSize && !Reloading)
+        if (Input.GetKeyDown(KeyCode.R) && BulletsLeft < MagazineSize && !Reloading)
+        {
+            Reload();
+        }
+        //Reload automatically when trying to shoot without ammo
+        if (ReadyToShoot && shooting && !Reloading && BulletsLeft > 0)
         {
             Reload();
         }
@@ -104,6 +123,12 @@ public class PlayerGun
         currentBullet.GetComponent<Rigidbody>().AddForce(directionWithSpread.normalized * shootForce, ForceMode.Impulse);
         currentBullet.GetComponent<Rigidbody>().AddForce(fpsCam.transform.up * upwardForce, ForceMode.Impulse);
 
+        //Instantiate muzzle flash, if you have one
+        if (muzzleFlash != null)
+        {
+            Instantiate(muzzleFlash, AttackPoint.position, Quaternion.identity);
+        }
+
         BulletsLeft--;
         BulletShot++;
 
@@ -112,12 +137,15 @@ public class PlayerGun
         {
             Invoke("ResetShot", TimeBetweenShooting);
             AllowInvoke = false;
+
+            //Add recoil to player
+            playerRb.AddForce(directionWithSpread.normalized * recoilForce, ForceMode.Impulse);
         }
 
         //If more than one bulletsPerTap make sure to repeat shoot function
         if (BulletShot < BulletsPerTap && BulletsLeft > 0)
         {
-            invoke("Shoot", TimeBetweenShots);
+            Invoke("Shoot", TimeBetweenShots);
         }
 
     }
@@ -138,6 +166,6 @@ public class PlayerGun
     private void ReloadFinished()
     {
         BulletsLeft = MagazineSize;
-        ReloadTime = false;
+        Reloading = false;
     }
 }

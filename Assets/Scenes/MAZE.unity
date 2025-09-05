@@ -1814,6 +1814,7 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 3256183832182482314, guid: 0bfb5cbf6194a6a4c8027f0e83365819, type: 3}
     - {fileID: 6030828772152726248, guid: 0bfb5cbf6194a6a4c8027f0e83365819, type: 3}
+    - {fileID: 3107894116067901793, guid: 0bfb5cbf6194a6a4c8027f0e83365819, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -1823,6 +1824,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1074942244043289433, guid: 0bfb5cbf6194a6a4c8027f0e83365819, type: 3}
       insertIndex: -1
       addedObject: {fileID: 434790398}
+    - targetCorrespondingSourceObject: {fileID: 1074942244043289433, guid: 0bfb5cbf6194a6a4c8027f0e83365819, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 434790410}
   m_SourcePrefab: {fileID: 100100000, guid: 0bfb5cbf6194a6a4c8027f0e83365819, type: 3}
 --- !u!1 &404250030
 GameObject:
@@ -2492,6 +2496,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 424664959}
   m_CullTransparentMesh: 1
+--- !u!4 &430296352 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7409695003995077364, guid: 0bfb5cbf6194a6a4c8027f0e83365819, type: 3}
+  m_PrefabInstance: {fileID: 399193402}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &434790392 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1074942244043289433, guid: 0bfb5cbf6194a6a4c8027f0e83365819, type: 3}
@@ -2532,6 +2541,40 @@ MonoBehaviour:
   ragdollDuration: 2
   explosionSound: {fileID: 8300000, guid: 14e85cce0c68887449aab581307051ad, type: 3}
   soundVolume: 1
+--- !u!114 &434790410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 434790392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06ca7d845840dcb44bb46e3bc7110bf9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bullet: {fileID: 5680938363587573523, guid: de9df66b524cfd14aa985c26541e29d4, type: 3}
+  shootForce: 300
+  upwardForce: 0
+  TimeBetweenShooting: 0.1
+  Spread: 3
+  ReloadTime: 1.5
+  TimeBetweenShots: 0
+  MagazineSize: 100
+  BulletsPerTap: 1
+  AllowButtonHold: 1
+  playerRb: {fileID: 0}
+  recoilForce: 0
+  fpsCam: {fileID: 434826251}
+  AttackPoint: {fileID: 430296352}
+  muzzleFlash: {fileID: 0}
+  ammunitionDisplay: {fileID: 0}
+  AllowInvoke: 1
+--- !u!20 &434826251 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 6790550507439954673, guid: 0bfb5cbf6194a6a4c8027f0e83365819, type: 3}
+  m_PrefabInstance: {fileID: 399193402}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &442602257
 PrefabInstance:
   m_ObjectHideFlags: 0
