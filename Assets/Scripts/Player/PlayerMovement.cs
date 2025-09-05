@@ -32,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
     private InputAction actionCrouch;
     private InputAction actionInteract;
 
+
     private Vector3 moveDirection;
 
     private bool playerIsMoving = false;  // Add this at class level

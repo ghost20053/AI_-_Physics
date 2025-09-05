@@ -34,6 +34,7 @@ public class PlayerGun : MonoBehaviour
     //Bug Fixing
     public bool AllowInvoke = true;
 
+
     public void Awake()
     {
         //Make sure magazine is full
@@ -41,7 +42,7 @@ public class PlayerGun : MonoBehaviour
         ReadyToShoot = true;
     }
 
-    private void Update()
+    public void Update()
     {
         MyInput();
 
@@ -52,7 +53,7 @@ public class PlayerGun : MonoBehaviour
         }
     }
 
-    private void MyInput()
+    public void MyInput()
     {
         //Check if allowed to hold down button and take corresponding input
         if (AllowButtonHold)
@@ -85,7 +86,7 @@ public class PlayerGun : MonoBehaviour
         }
     }
 
-    private void Shoot()
+    public void Shoot()
     {
         ReadyToShoot = false;
 
@@ -150,21 +151,21 @@ public class PlayerGun : MonoBehaviour
 
     }
 
-    private void ResetShot()
+    public void ResetShot()
     {
         //Allow shooting and invoking again
         ReadyToShoot = true;
         AllowInvoke = true;
     }
 
-    private void Reload()
+    public void Reload()
     {
         //Check if Gun is needs to relode
         Reloading = true;
         Invoke("ReloadFinished", ReloadTime);
     }
 
-    private void ReloadFinished()
+    public void ReloadFinished()
     {
         //Check if Gun is reloded
         BulletsLeft = MagazineSize;
