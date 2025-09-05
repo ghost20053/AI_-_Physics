@@ -159,12 +159,14 @@ public class PlayerGun : MonoBehaviour
 
     private void Reload()
     {
+        //Check if Gun is needs to relode
         Reloading = true;
         Invoke("ReloadFinished", ReloadTime);
     }
 
     private void ReloadFinished()
     {
+        //Check if Gun is reloded
         BulletsLeft = MagazineSize;
         Reloading = false;
     }
