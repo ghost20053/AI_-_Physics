@@ -12,11 +12,14 @@ public class Prospector_AI : MonoBehaviour
 
     [Header("Sound Reaction")]
     public float hearingRange = 15f; // Max distance enemy can hear
+
+    [Header("Projectile Settings")]
     public GameObject projectilePrefab; // Prefab of the explosive projectile
     public Transform projectileSpawnPoint; // Where the projectile is thrown from
+    public float projectileSpeed = 10f;
     public float projectileForce = 20f;
     public float fireRate = 0.5f;
-    private float nextFire = 0.0f;
+    public float nextFire = 0.0f;
 
     [Header("References")]
     private NavMeshAgent agent;
@@ -37,7 +40,9 @@ public class Prospector_AI : MonoBehaviour
     {
         // If enemy is reacting to a sound, stop patrolling
         if (isHearingSound)
+        {
             return;
+        }
 
         // Patrol logic
         if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
@@ -73,6 +78,8 @@ public class Prospector_AI : MonoBehaviour
         {
             StartCoroutine(ReactToSound(soundPos));
         }
+        // Throw projectile
+        ThrowProjectile(soundPos);
     }
 
     // Coroutine that stops the enemy, faces the sound, and throws a projectile
@@ -92,9 +99,6 @@ public class Prospector_AI : MonoBehaviour
             elapsed += Time.deltaTime;
             yield return null;
         }
-
-        // Throw projectile
-        ThrowProjectile(soundPos);
 
         yield return new WaitForSeconds(1.5f); // Wait before returning to patrol
 
