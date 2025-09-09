@@ -1840,6 +1840,14 @@ PrefabInstance:
       propertyPath: mouseSensitivity
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7409695003995077364, guid: 0bfb5cbf6194a6a4c8027f0e83365819, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.489
+      objectReference: {fileID: 0}
+    - target: {fileID: 7409695003995077364, guid: 0bfb5cbf6194a6a4c8027f0e83365819, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.339
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
