@@ -1,10 +1,9 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(PlayerInput))]
-
 public class Player : MonoBehaviour
 {
     [Header("Movement Settings")]
@@ -17,14 +16,13 @@ public class Player : MonoBehaviour
     public float jumpForce = 8f;
 
     [Header("Camera Settings")]
-    public Transform playerCamera;   // Reference to fps camera
-    public Transform camPivot;       // Empty object holding the camera for pitch
-    public float mouseSensitivity = 1f;
+    public Camera playerCamera;       // Assign your fps cam directly
+    public float mouseSensitivity = 10f; // Base sensitivity
     private float verticalRotation = 0f; // Pitch (up/down)
 
     [Header("Gun Settings")]
-    public GameObject bulletPrefab;  // Prefab with Rigidbody
-    public Transform attackPoint;    // Where bullets spawn (gun barrel)
+    public GameObject bulletPrefab;
+    public Transform attackPoint;
     public float shootForce = 20f;
     public float upwardForce = 0f;
     public float spread = 0.05f;
@@ -36,7 +34,7 @@ public class Player : MonoBehaviour
     public bool allowButtonHold = true;
 
     [Header("Gun Recoil")]
-    public Rigidbody playerRb;       // For recoil force
+    public Rigidbody playerRb;
     public float recoilForce = 2f;
 
     [Header("Gun Visuals")]
@@ -44,7 +42,7 @@ public class Player : MonoBehaviour
     public TextMeshProUGUI ammoDisplay;
 
     [Header("Sound Settings")]
-    public float soundRadius = 10f; // How far enemies hear footsteps
+    public float soundRadius = 10f;
 
     // --- Private movement vars ---
     private CharacterController controller;
@@ -73,7 +71,6 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        // Components
         controller = GetComponent<CharacterController>();
         playerInput = GetComponent<PlayerInput>();
 
@@ -122,7 +119,6 @@ public class Player : MonoBehaviour
         Vector2 input = moveAction.ReadValue<Vector2>();
         Vector3 move = transform.right * input.x + transform.forward * input.y;
 
-        // Speed logic
         float speed = walkSpeed;
         if (sprintAction.IsPressed()) { speed = sprintSpeed; MakeNoise(); }
         else if (crouchAction.IsPressed()) { speed = crouchSpeed; }
@@ -130,7 +126,6 @@ public class Player : MonoBehaviour
         moveDirection.x = move.x * speed;
         moveDirection.z = move.z * speed;
 
-        // Jump
         if (jumpAction.WasPressedThisFrame() && controller.isGrounded)
         {
             moveDirection.y = jumpForce;
@@ -152,15 +147,17 @@ public class Player : MonoBehaviour
     private void HandleLook()
     {
         Vector2 lookInput = lookAction.ReadValue<Vector2>();
-        float mouseX = lookInput.x * mouseSensitivity;
-        float mouseY = lookInput.y * mouseSensitivity;
 
-        // Pitch (up/down)
+        // Scale mouse input (0.1f factor makes it closer to old system feel)
+        float mouseX = lookInput.x * mouseSensitivity * 0.1f;
+        float mouseY = lookInput.y * mouseSensitivity * 0.1f;
+
+        // Pitch (vertical rotation on camera itself)
         verticalRotation -= mouseY;
         verticalRotation = Mathf.Clamp(verticalRotation, -90f, 90f);
-        camPivot.localEulerAngles = new Vector3(verticalRotation, 0f, 0f);
+        playerCamera.transform.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
 
-        // Yaw (left/right)
+        // Yaw (horizontal rotation on player root)
         transform.Rotate(Vector3.up * mouseX);
     }
 
@@ -186,8 +183,8 @@ public class Player : MonoBehaviour
     {
         readyToShoot = false;
 
-        // Raycast from center of screen
-        Ray ray = playerCamera.GetComponent<Camera>().ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        // Raycast from screen center
+        Ray ray = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         Vector3 targetPoint = Physics.Raycast(ray, out RaycastHit hit) ? hit.point : ray.GetPoint(75);
 
         // Spread
@@ -201,7 +198,7 @@ public class Player : MonoBehaviour
         currentBullet.transform.forward = directionWithSpread.normalized;
         Rigidbody bulletRb = currentBullet.GetComponent<Rigidbody>();
         bulletRb.AddForce(directionWithSpread.normalized * shootForce, ForceMode.Impulse);
-        bulletRb.AddForce(playerCamera.up * upwardForce, ForceMode.Impulse);
+        bulletRb.AddForce(playerCamera.transform.up * upwardForce, ForceMode.Impulse);
 
         // Muzzle flash
         if (muzzleFlashPrefab != null)
@@ -212,7 +209,7 @@ public class Player : MonoBehaviour
 
         // Recoil
         if (playerRb != null)
-            playerRb.AddForce(-playerCamera.forward * recoilForce, ForceMode.Impulse);
+            playerRb.AddForce(-playerCamera.transform.forward * recoilForce, ForceMode.Impulse);
 
         if (allowInvoke)
         {

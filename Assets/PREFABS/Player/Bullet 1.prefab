@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 216636626935907425}
-  explosion: {fileID: 0}
+  explosion: {fileID: 1121192042590650, guid: e1b08032bec16ba4eb1ae23cbd572664, type: 3}
   whatIsEnemies:
     serializedVersion: 2
     m_Bits: 8
