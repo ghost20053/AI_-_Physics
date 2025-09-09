@@ -146,6 +146,8 @@ public class Player : MonoBehaviour
     // ---------------- Camera Look ----------------
     private void HandleLook()
     {
+        if (PauseMenu.isPaused) return;
+
         Vector2 lookInput = lookAction.ReadValue<Vector2>();
 
         // Scale mouse input (0.1f factor makes it closer to old system feel)
