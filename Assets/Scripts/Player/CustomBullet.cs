@@ -2,28 +2,28 @@ using UnityEngine;
 
 public class CustomBullet : MonoBehaviour
 {
-    //Assignables
+    // Assignables
     public Rigidbody rb;
     public GameObject explosion;
     public LayerMask whatIsEnemies;
 
-    //Stats
+    // Stats
     [Range(0f, 1f)]
     public float bounciness;
     public bool useGravity;
 
-    //Damage
-    public int explosionDamange;
-    public float explosionRange;
-    public float explosionForce;
+    // Damage
+    public int explosionDamage = 20;
+    public float explosionRange = 5f;
+    public float explosionForce = 500f;
 
-    //Lifetime
-    public int maxCollisions;
-    public float maxLifetime;
+    // Lifetime
+    public int maxCollisions = 1;
+    public float maxLifetime = 5f;
     public bool explodeOnTouch = true;
 
-    int collisions;
-    PhysicsMaterial physics_mat;
+    private int collisions;
+    private PhysicsMaterial physicsMat;
 
     private void Start()
     {
@@ -32,13 +32,13 @@ public class CustomBullet : MonoBehaviour
 
     private void Update()
     {
-        //When to explode:
+        // Destroy after too many collisions
         if (collisions > maxCollisions)
         {
             Explode();
         }
 
-        //Count down lifetime
+        // Destroy after lifetime
         maxLifetime -= Time.deltaTime;
         if (maxLifetime <= 0)
         {
@@ -48,44 +48,51 @@ public class CustomBullet : MonoBehaviour
 
     private void Explode()
     {
-        //Instantiate explosion
+        // Spawn explosion VFX
         if (explosion != null)
         {
             Instantiate(explosion, transform.position, Quaternion.identity);
         }
-
-        //Check for enemies
+        // Damage and knockback
         Collider[] enemies = Physics.OverlapSphere(transform.position, explosionRange, whatIsEnemies);
-        for (int i = 0; i < enemies.Length; i++)
+        foreach (Collider enemy in enemies)
         {
-            //Get component of enemy and call Take Damage
-
-            //Just an Example!
-            /* enemies[i].GetComponent<ShootingAi>().TakeDamage(explosionDamage); */
-
-            //Add explosion force (if enemy has a rigidbody)
-            if (enemies[i].GetComponent<Rigidbody>())
+            // Check if in RagDoll State
+            Prospector_AI ai = enemy.GetComponent<Prospector_AI>();
+            if (ai != null)
             {
-                enemies[i].GetComponent<Rigidbody>().AddExplosionForce(explosionForce, transform.position, explosionRange);
+                ai.EnableRagdoll(); // Kill enemy immediately
+            }
+
+            // Apply knockback if they have Rigidbody
+            Rigidbody enemyRb = enemy.GetComponent<Rigidbody>();
+            if (enemyRb != null)
+            {
+                enemyRb.AddExplosionForce(explosionForce, transform.position, explosionRange);
+            }
+            // Trigger ragdoll if enemy has one
+            Prospector_AI ragdoll = enemy.GetComponent<Prospector_AI>();
+            if (ragdoll != null)
+            {
+                ragdoll.EnableRagdoll();
             }
         }
 
-        //Add a little delay, just to make sure everything works fine
-        Invoke("Delay", 0.05f);
+        // Small delay before destroying bullet
+        Invoke(nameof(DestroyBullet), 0.05f);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        //Don't count collisions with other bullets
+        // Ignore other bullets
         if (collision.collider.CompareTag("Bullet"))
-        {
-            return;
+        { 
+            return; 
         }
 
-        //Count up collisions
         collisions++;
 
-        //Explode if bullet hits an enemy directly and explodeOnTouch is activated
+        // Explode immediately on enemy hit
         if (collision.collider.CompareTag("Enemy") && explodeOnTouch)
         {
             Explode();
@@ -94,16 +101,22 @@ public class CustomBullet : MonoBehaviour
 
     private void Setup()
     {
-        //Create a new Physic Material
-        physics_mat = new PhysicsMaterial();
-        physics_mat.bounciness = bounciness;
-        physics_mat.frictionCombine = PhysicsMaterialCombine.Minimum;
-        physics_mat.bounceCombine = PhysicsMaterialCombine.Maximum;
-        //Assign material to collider
-        GetComponent<SphereCollider>().material = physics_mat;
+        // Physics material
+        physicsMat = new PhysicsMaterial();
+        physicsMat.bounciness = bounciness;
+        physicsMat.frictionCombine = PhysicsMaterialCombine.Minimum;
+        physicsMat.bounceCombine = PhysicsMaterialCombine.Maximum;
 
-        //Set gravity
+        // Assign to collider
+        GetComponent<SphereCollider>().material = physicsMat;
+
+        // Gravity
         rb.useGravity = useGravity;
+    }
+
+    private void DestroyBullet()
+    {
+        Destroy(gameObject);
     }
 
     private void OnDrawGizmosSelected()

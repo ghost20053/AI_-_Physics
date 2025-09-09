@@ -1,48 +1,51 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class Prospector_AI : MonoBehaviour
 {
     [Header("Patrol Settings")]
-    public float patrolRadius = 10f; // How far the enemy will patrol
-    public float patrolWaitTime = 2f; // Wait time before choosing new patrol point
+    public float patrolRadius = 10f;
+    public float patrolWaitTime = 2f;
     private float waitTimer = 0f;
 
     [Header("Sound Reaction")]
-    public float hearingRange = 15f; // Max distance enemy can hear
+    public float hearingRange = 15f;
 
     [Header("Projectile Settings")]
-    public GameObject projectilePrefab; // Prefab of the explosive projectile
-    public Transform projectileSpawnPoint; // Where the projectile is thrown from
-    public float projectileSpeed = 10f;
+    public GameObject projectilePrefab;
+    public Transform projectileSpawnPoint;
     public float projectileForce = 20f;
     public float fireRate = 0.5f;
-    public float nextFire = 0.0f;
-
-    [Header("References")]
-    private NavMeshAgent agent;
-    private bool isHearingSound = false;
-    private Vector3 soundPosition;
+    private float nextFire = 0.0f;
 
     [Header("Audio")]
     public AudioClip projectileSound;
     public float soundVolume = 1.0f;
 
+    [Header("Ragdoll & Death")]
+    private Animator animator;
+    private Rigidbody[] ragdollBodies;
+    private NavMeshAgent agent;
+    private bool isDead = false;
+
+    private bool isHearingSound = false;
+
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        ChooseNewPatrolPoint(); // Start patrol immediately
+        animator = GetComponent<Animator>();
+        ragdollBodies = GetComponentsInChildren<Rigidbody>();
+
+        SetRagdoll(false); // start alive
+        ChooseNewPatrolPoint();
     }
 
     void Update()
     {
-        // If enemy is reacting to a sound, stop patrolling
-        if (isHearingSound)
-        {
-            return;
-        }
+        if (isDead) return; // stop AI if dead
+
+        if (isHearingSound) return;
 
         // Patrol logic
         if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
@@ -56,8 +59,7 @@ public class Prospector_AI : MonoBehaviour
         }
     }
 
-    // Picks a random point within patrol radius and moves there
- 
+    // ---------------- Patrol ----------------
     void ChooseNewPatrolPoint()
     {
         Vector3 randomDirection = Random.insideUnitSphere * patrolRadius;
@@ -70,25 +72,24 @@ public class Prospector_AI : MonoBehaviour
         }
     }
 
-
-    //Called externally when the enemy hears a sound
+    // ---------------- Sound Reaction ----------------
     public void HearSound(Vector3 soundPos)
     {
+        if (isDead) return;
+
         if (Vector3.Distance(transform.position, soundPos) <= hearingRange)
         {
             StartCoroutine(ReactToSound(soundPos));
+            ThrowProjectile(soundPos);
         }
-        // Throw projectile
-        ThrowProjectile(soundPos);
     }
 
-    // Coroutine that stops the enemy, faces the sound, and throws a projectile
     IEnumerator ReactToSound(Vector3 soundPos)
     {
         isHearingSound = true;
         agent.isStopped = true;
 
-        // Rotate towards sound
+        // Face sound
         Vector3 direction = (soundPos - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
         float elapsed = 0f;
@@ -100,29 +101,24 @@ public class Prospector_AI : MonoBehaviour
             yield return null;
         }
 
-        yield return new WaitForSeconds(1.5f); // Wait before returning to patrol
+        yield return new WaitForSeconds(1.5f);
 
         agent.isStopped = false;
         isHearingSound = false;
     }
 
-    // Spawns and launches a projectile toward the sound position
     void ThrowProjectile(Vector3 target)
     {
         if (projectilePrefab && projectileSpawnPoint)
         {
-            // Fire Rate between projectiles
             if (Time.time > nextFire)
             {
                 nextFire = Time.time + fireRate;
-                Instantiate(projectilePrefab, transform.position, transform.rotation);
-                
-                // Firing Projectile
+
                 GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, Quaternion.identity);
                 Rigidbody rb = projectile.GetComponent<Rigidbody>();
                 AudioSource.PlayClipAtPoint(projectileSound, transform.position, soundVolume);
 
-                // Direction the projectile will go
                 if (rb)
                 {
                     Vector3 direction = (target - projectileSpawnPoint.position).normalized;
@@ -132,10 +128,45 @@ public class Prospector_AI : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmosSelected()
+    // ---------------- Death / Ragdoll ----------------
+    public void EnableRagdoll()
     {
-        Gizmos.color = Color.red; // Choose any color you like
-        Gizmos.DrawWireSphere(transform.position, hearingRange);
+        if (isDead) return;
+
+        isDead = true;
+
+        // Stop AI
+        if (animator != null) animator.enabled = false;
+        if (agent != null) agent.enabled = false;
+
+        // Enable physics on body parts
+        foreach (var rb in ragdollBodies)
+        {
+            rb.isKinematic = false;
+            rb.useGravity = true;
+        }
+
+        // Notify EnemyManager
+        if (EnemyManager.Instance != null)
+        {
+            EnemyManager.Instance.EnemyDied();
+        }
     }
 
+    private void SetRagdoll(bool active)
+    {
+        if (animator != null) animator.enabled = !active;
+
+        foreach (var rb in ragdollBodies)
+        {
+            rb.isKinematic = !active;
+            rb.useGravity = active;
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, hearingRange);
+    }
 }
