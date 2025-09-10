@@ -1,6 +1,5 @@
-﻿using UnityEngine.SceneManagement;
+﻿using UnityEngine;
 using TMPro;
-using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
@@ -11,7 +10,7 @@ public class EnemyManager : MonoBehaviour
 
     [Header("UI")]
     public TextMeshProUGUI enemyCounterText;
-    public GameObject winScreen; // assign in Inspector
+    public GameObject winScreen;
 
     private void Awake()
     {
@@ -21,7 +20,7 @@ public class EnemyManager : MonoBehaviour
 
     private void Start()
     {
-        // ✅ New Unity API (no warning)
+        // Count enemies at start
         Prospector_AI[] enemies = Object.FindObjectsByType<Prospector_AI>(FindObjectsSortMode.None);
         totalEnemies = enemies.Length;
         deadEnemies = 0;
@@ -34,9 +33,7 @@ public class EnemyManager : MonoBehaviour
         UpdateUI();
 
         if (deadEnemies >= totalEnemies)
-        {
             PlayerWins();
-        }
     }
 
     private void UpdateUI()
@@ -55,7 +52,6 @@ public class EnemyManager : MonoBehaviour
         if (winScreen != null)
             winScreen.SetActive(true);
 
-        Time.timeScale = 0f; // freeze
-        // OR load scene: SceneManager.LoadScene("WinScene");
+        Time.timeScale = 0f;
     }
 }

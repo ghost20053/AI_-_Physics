@@ -1833,12 +1833,80 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6780967027274556387, guid: 0bfb5cbf6194a6a4c8027f0e83365819, type: 3}
+      propertyPath: gravity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6780967027274556387, guid: 0bfb5cbf6194a6a4c8027f0e83365819, type: 3}
+      propertyPath: moveSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6780967027274556387, guid: 0bfb5cbf6194a6a4c8027f0e83365819, type: 3}
       propertyPath: playerCamera
       value: 
       objectReference: {fileID: 186690162}
     - target: {fileID: 6780967027274556387, guid: 0bfb5cbf6194a6a4c8027f0e83365819, type: 3}
       propertyPath: mouseSensitivity
-      value: 1
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6780967027274556387, guid: 0bfb5cbf6194a6a4c8027f0e83365819, type: 3}
+      propertyPath: jumpAction.m_Name
+      value: Jump
+      objectReference: {fileID: 0}
+    - target: {fileID: 6780967027274556387, guid: 0bfb5cbf6194a6a4c8027f0e83365819, type: 3}
+      propertyPath: lookAction.m_Name
+      value: Look
+      objectReference: {fileID: 0}
+    - target: {fileID: 6780967027274556387, guid: 0bfb5cbf6194a6a4c8027f0e83365819, type: 3}
+      propertyPath: moveAction.m_Name
+      value: Move
+      objectReference: {fileID: 0}
+    - target: {fileID: 6780967027274556387, guid: 0bfb5cbf6194a6a4c8027f0e83365819, type: 3}
+      propertyPath: shootAction.m_Name
+      value: Shoot
+      objectReference: {fileID: 0}
+    - target: {fileID: 6780967027274556387, guid: 0bfb5cbf6194a6a4c8027f0e83365819, type: 3}
+      propertyPath: reloadAction.m_Name
+      value: Reload
+      objectReference: {fileID: 0}
+    - target: {fileID: 6780967027274556387, guid: 0bfb5cbf6194a6a4c8027f0e83365819, type: 3}
+      propertyPath: bulletTypes.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6780967027274556387, guid: 0bfb5cbf6194a6a4c8027f0e83365819, type: 3}
+      propertyPath: bulletTypes.Array.data[0].prefab
+      value: 
+      objectReference: {fileID: 5680938363587573523, guid: 657230cdb8a3b0e49a1a2719630947f8, type: 3}
+    - target: {fileID: 6780967027274556387, guid: 0bfb5cbf6194a6a4c8027f0e83365819, type: 3}
+      propertyPath: bulletTypes.Array.data[1].prefab
+      value: 
+      objectReference: {fileID: 5680938363587573523, guid: f47ddb92db7dbd34896d6679c1c3d944, type: 3}
+    - target: {fileID: 6780967027274556387, guid: 0bfb5cbf6194a6a4c8027f0e83365819, type: 3}
+      propertyPath: bulletTypes.Array.data[2].prefab
+      value: 
+      objectReference: {fileID: 5680938363587573523, guid: 3818ed330f78d8744a5beaa144bd0d34, type: 3}
+    - target: {fileID: 6780967027274556387, guid: 0bfb5cbf6194a6a4c8027f0e83365819, type: 3}
+      propertyPath: bulletTypes.Array.data[0].reserveAmmo
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6780967027274556387, guid: 0bfb5cbf6194a6a4c8027f0e83365819, type: 3}
+      propertyPath: bulletTypes.Array.data[1].reserveAmmo
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6780967027274556387, guid: 0bfb5cbf6194a6a4c8027f0e83365819, type: 3}
+      propertyPath: bulletTypes.Array.data[2].reserveAmmo
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6780967027274556387, guid: 0bfb5cbf6194a6a4c8027f0e83365819, type: 3}
+      propertyPath: bulletTypes.Array.data[0].magazineSize
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6780967027274556387, guid: 0bfb5cbf6194a6a4c8027f0e83365819, type: 3}
+      propertyPath: bulletTypes.Array.data[1].magazineSize
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6780967027274556387, guid: 0bfb5cbf6194a6a4c8027f0e83365819, type: 3}
+      propertyPath: bulletTypes.Array.data[2].magazineSize
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 7409695003995077364, guid: 0bfb5cbf6194a6a4c8027f0e83365819, type: 3}
       propertyPath: m_LocalPosition.y

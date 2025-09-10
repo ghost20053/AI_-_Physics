@@ -2,145 +2,93 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
 
-[RequireComponent(typeof(CharacterController))]
-[RequireComponent(typeof(PlayerInput))]
+[System.Serializable]
+public class BulletType
+{
+    public GameObject prefab;       // Prefab of this bullet type
+    public int magazineSize = 30;   // Bullets per magazine
+    public int bulletsLeft;         // Bullets currently in the mag
+    public int reserveAmmo = 90;    // Extra ammo for reloading
+}
+
 public class Player : MonoBehaviour
 {
-    [Header("Movement Settings")]
-    public float walkSpeed = 5f;
-    public float sprintSpeed = 8f;
-    public float crouchSpeed = 2f;
-
-    [Header("Jump & Gravity")]
-    public float gravity = 20f;
-    public float jumpForce = 8f;
-
-    [Header("Camera Settings")]
-    public Camera playerCamera;       // Assign your fps cam directly
-    public float mouseSensitivity = 10f; // Base sensitivity
-    private float verticalRotation = 0f; // Pitch (up/down)
-
-    [Header("Gun Settings")]
-    public GameObject bulletPrefab;
-    public Transform attackPoint;
-    public float shootForce = 20f;
-    public float upwardForce = 0f;
-    public float spread = 0.05f;
-    public float timeBetweenShooting = 0.2f;
-    public float timeBetweenShots = 0.05f;
-    public float reloadTime = 2f;
-    public int magazineSize = 30;
-    public int bulletsPerTap = 1;
-    public bool allowButtonHold = true;
-
-    [Header("Gun Recoil")]
-    public Rigidbody playerRb;
-    public float recoilForce = 2f;
-
-    [Header("Gun Visuals")]
-    public GameObject muzzleFlashPrefab;
-    public TextMeshProUGUI ammoDisplay;
-
-    [Header("Sound Settings")]
-    public float soundRadius = 10f;
-
-    // --- Private movement vars ---
+    [Header("Movement")]
+    public float moveSpeed = 5f;       // Player movement speed
+    public float jumpForce = 5f;       // Jump height
+    public float gravity = -9.81f;     // Gravity applied to the player
     private CharacterController controller;
-    private Vector3 moveDirection;
-    private bool isMoving;
-    private float footstepTimer;
-    private float footstepInterval = 0.5f;
+    private Vector3 velocity;
+    private bool isGrounded;
 
-    // --- Private gun vars ---
-    private int bulletsLeft;
-    private int bulletsShot;
-    private bool shooting;
-    private bool readyToShoot;
-    private bool reloading;
-    private bool allowInvoke = true;
+    [Header("Camera")]
+    public Camera playerCamera;
+    public float mouseSensitivity = 2f;  // Mouse look sensitivity
+    private float verticalRotation;
 
-    // --- Input System ---
-    private PlayerInput playerInput;
-    private InputAction moveAction;
-    private InputAction jumpAction;
-    private InputAction sprintAction;
-    private InputAction crouchAction;
-    private InputAction lookAction;
-    private InputAction fireAction;
-    private InputAction reloadAction;
+    [Header("Weapons & Bullets")]
+    public BulletType[] bulletTypes;     // Assign multiple bullet types in Inspector
+    private int currentBulletIndex = 0;  // Which bullet type is active
+    public Transform attackPoint;        // Where bullets spawn
+    public float shootForce = 20f;       // How fast bullets are fired
 
-    private void Awake()
+    [Header("UI")]
+    public TextMeshProUGUI ammoDisplay;      // Shows ammo count
+    public TextMeshProUGUI bulletTypeText;   // Shows active bullet type
+
+    private void Start()
     {
         controller = GetComponent<CharacterController>();
-        playerInput = GetComponent<PlayerInput>();
 
-        // Input Actions
-        moveAction = playerInput.actions["Move"];
-        jumpAction = playerInput.actions["Jump"];
-        sprintAction = playerInput.actions["Sprint"];
-        crouchAction = playerInput.actions["Crouch"];
-        lookAction = playerInput.actions["Look"];
-        fireAction = playerInput.actions["Fire"];
-        reloadAction = playerInput.actions["Reload"];
+        // Fill mags for all bullet types at the start
+        foreach (var bt in bulletTypes)
+        {
+            bt.bulletsLeft = bt.magazineSize;
+        }
 
-        // Gun setup
-        bulletsLeft = magazineSize;
-        readyToShoot = true;
+        UpdateUI();
+
+        // Lock the cursor to the center of the screen
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     private void Update()
     {
         HandleMovement();
-        ApplyGravity();
-        controller.Move(moveDirection * Time.deltaTime);
-
         HandleLook();
-        HandleGunInput();
-
-        // Ammo UI
-        if (ammoDisplay != null)
-            ammoDisplay.SetText(bulletsLeft / bulletsPerTap + " / " + magazineSize / bulletsPerTap);
-
-        // Footstep noise
-        if (controller.isGrounded && isMoving)
-        {
-            footstepTimer += Time.deltaTime;
-            if (footstepTimer >= footstepInterval)
-            {
-                MakeNoise();
-                footstepTimer = 0f;
-            }
-        }
+        HandleShooting();
+        HandleReload();
+        HandleBulletSwitching();
     }
 
-    // ---------------- Movement ----------------
+    // ---------------- Player Movement ----------------
     private void HandleMovement()
     {
-        Vector2 input = moveAction.ReadValue<Vector2>();
-        Vector3 move = transform.right * input.x + transform.forward * input.y;
+        // Ground check
+        isGrounded = controller.isGrounded;
+        if (isGrounded && velocity.y < 0)
+            velocity.y = -2f; // Keeps player "stuck" to the ground
 
-        float speed = walkSpeed;
-        if (sprintAction.IsPressed()) { speed = sprintSpeed; MakeNoise(); }
-        else if (crouchAction.IsPressed()) { speed = crouchSpeed; }
+        // WASD input
+        float moveX = Keyboard.current.aKey.isPressed ? -1 :
+                      Keyboard.current.dKey.isPressed ? 1 : 0;
+        float moveZ = Keyboard.current.sKey.isPressed ? -1 :
+                      Keyboard.current.wKey.isPressed ? 1 : 0;
 
-        moveDirection.x = move.x * speed;
-        moveDirection.z = move.z * speed;
+        // Move relative to player facing
+        Vector3 move = transform.right * moveX + transform.forward * moveZ;
+        controller.Move(move * moveSpeed * Time.deltaTime);
 
-        if (jumpAction.WasPressedThisFrame() && controller.isGrounded)
+        // Jump
+        if (isGrounded && Keyboard.current.spaceKey.wasPressedThisFrame)
         {
-            moveDirection.y = jumpForce;
-            MakeNoise();
+            velocity.y = Mathf.Sqrt(jumpForce * -2f * gravity);
         }
 
-        isMoving = input.magnitude > 0.1f;
-    }
-
-    private void ApplyGravity()
-    {
-        if (!controller.isGrounded)
-            moveDirection.y -= gravity * Time.deltaTime;
-        else if (moveDirection.y < 0)
-            moveDirection.y = -1f;
+        // Apply gravity
+        velocity.y += gravity * Time.deltaTime;
+        controller.Move(velocity * Time.deltaTime);
     }
 
     // ---------------- Camera Look ----------------
@@ -148,114 +96,106 @@ public class Player : MonoBehaviour
     {
         if (PauseMenu.isPaused) return;
 
-        Vector2 lookInput = lookAction.ReadValue<Vector2>();
+        Vector2 mouseDelta = Mouse.current.delta.ReadValue();
+        float mouseX = mouseDelta.x * mouseSensitivity;
+        float mouseY = mouseDelta.y * mouseSensitivity;
 
-        // Scale mouse input (0.1f factor makes it closer to old system feel)
-        float mouseX = lookInput.x * mouseSensitivity * 0.1f;
-        float mouseY = lookInput.y * mouseSensitivity * 0.1f;
-
-        // Pitch (vertical rotation on camera itself)
         verticalRotation -= mouseY;
         verticalRotation = Mathf.Clamp(verticalRotation, -90f, 90f);
+
+        // Rotate camera vertically
         playerCamera.transform.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
 
-        // Yaw (horizontal rotation on player root)
+        // Rotate player horizontally
         transform.Rotate(Vector3.up * mouseX);
     }
 
-    // ---------------- Gun Handling ----------------
-    private void HandleGunInput()
+    // ---------------- Shooting ----------------
+    private void HandleShooting()
     {
-        shooting = allowButtonHold ? fireAction.IsPressed() : fireAction.WasPressedThisFrame();
-
-        if (reloadAction.WasPressedThisFrame() && bulletsLeft < magazineSize && !reloading)
-            Reload();
-
-        if (readyToShoot && shooting && !reloading && bulletsLeft <= 0)
-            Reload();
-
-        if (readyToShoot && shooting && !reloading && bulletsLeft > 0)
-        {
-            bulletsShot = 0;
+        if (Mouse.current.leftButton.wasPressedThisFrame)
             Shoot();
-        }
     }
 
     private void Shoot()
     {
-        readyToShoot = false;
+        if (bulletTypes.Length == 0) return;
 
-        // Raycast from screen center
-        Ray ray = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-        Vector3 targetPoint = Physics.Raycast(ray, out RaycastHit hit) ? hit.point : ray.GetPoint(75);
+        BulletType current = bulletTypes[currentBulletIndex];
+        if (current.bulletsLeft <= 0) return; // Out of ammo
 
-        // Spread
-        Vector3 direction = targetPoint - attackPoint.position;
-        float x = Random.Range(-spread, spread);
-        float y = Random.Range(-spread, spread);
-        Vector3 directionWithSpread = direction + new Vector3(x, y, 0);
+        // Spawn bullet
+        GameObject bullet = Instantiate(current.prefab, attackPoint.position, attackPoint.rotation);
+        Rigidbody rb = bullet.GetComponent<Rigidbody>();
+        if (rb != null)
+            rb.AddForce(attackPoint.forward * shootForce, ForceMode.Impulse);
 
-        // Bullet
-        GameObject currentBullet = Instantiate(bulletPrefab, attackPoint.position, Quaternion.identity);
-        currentBullet.transform.forward = directionWithSpread.normalized;
-        Rigidbody bulletRb = currentBullet.GetComponent<Rigidbody>();
-        bulletRb.AddForce(directionWithSpread.normalized * shootForce, ForceMode.Impulse);
-        bulletRb.AddForce(playerCamera.transform.up * upwardForce, ForceMode.Impulse);
-
-        // Muzzle flash
-        if (muzzleFlashPrefab != null)
-            Instantiate(muzzleFlashPrefab, attackPoint.position, Quaternion.identity);
-
-        bulletsLeft--;
-        bulletsShot++;
-
-        // Recoil
-        if (playerRb != null)
-            playerRb.AddForce(-playerCamera.transform.forward * recoilForce, ForceMode.Impulse);
-
-        if (allowInvoke)
-        {
-            Invoke(nameof(ResetShot), timeBetweenShooting);
-            allowInvoke = false;
-        }
-
-        if (bulletsShot < bulletsPerTap && bulletsLeft > 0)
-            Invoke(nameof(Shoot), timeBetweenShots);
+        current.bulletsLeft--;
+        UpdateUI();
     }
 
-    private void ResetShot()
+    // ---------------- Reloading ----------------
+    private void HandleReload()
     {
-        readyToShoot = true;
-        allowInvoke = true;
+        if (Keyboard.current.rKey.wasPressedThisFrame)
+            Reload();
     }
 
     private void Reload()
     {
-        reloading = true;
-        Invoke(nameof(ReloadFinished), reloadTime);
-    }
+        if (bulletTypes.Length == 0) return;
 
-    private void ReloadFinished()
-    {
-        bulletsLeft = magazineSize;
-        reloading = false;
-    }
+        BulletType current = bulletTypes[currentBulletIndex];
+        int needed = current.magazineSize - current.bulletsLeft;
 
-    // ---------------- Noise for AI ----------------
-    private void MakeNoise()
-    {
-        Collider[] hits = Physics.OverlapSphere(transform.position, soundRadius);
-        foreach (Collider hit in hits)
+        if (needed > 0 && current.reserveAmmo > 0)
         {
-            Prospector_AI enemy = hit.GetComponent<Prospector_AI>();
-            if (enemy != null)
-                enemy.HearSound(transform.position);
+            int loadAmount = Mathf.Min(needed, current.reserveAmmo);
+            current.bulletsLeft += loadAmount;
+            current.reserveAmmo -= loadAmount;
         }
+
+        UpdateUI();
     }
 
-    private void OnDrawGizmosSelected()
+    // ---------------- Bullet Switching ----------------
+    private void HandleBulletSwitching()
     {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, soundRadius);
+        // Number keys
+        if (Keyboard.current.digit1Key.wasPressedThisFrame && bulletTypes.Length > 0)
+            currentBulletIndex = 0;
+        if (Keyboard.current.digit2Key.wasPressedThisFrame && bulletTypes.Length > 1)
+            currentBulletIndex = 1;
+        if (Keyboard.current.digit3Key.wasPressedThisFrame && bulletTypes.Length > 2)
+            currentBulletIndex = 2;
+
+        // Scroll wheel
+        float scroll = Mouse.current.scroll.y.ReadValue();
+        if (scroll > 0f)
+        {
+            currentBulletIndex++;
+            if (currentBulletIndex >= bulletTypes.Length) currentBulletIndex = 0;
+        }
+        else if (scroll < 0f)
+        {
+            currentBulletIndex--;
+            if (currentBulletIndex < 0) currentBulletIndex = bulletTypes.Length - 1;
+        }
+
+        UpdateUI();
+    }
+
+    // ---------------- UI ----------------
+    private void UpdateUI()
+    {
+        if (bulletTypes.Length == 0) return;
+
+        BulletType current = bulletTypes[currentBulletIndex];
+
+        if (ammoDisplay != null)
+            ammoDisplay.text = $"{current.bulletsLeft} / {current.reserveAmmo}";
+
+        if (bulletTypeText != null)
+            bulletTypeText.text = $"Bullet: {current.prefab.name}";
     }
 }

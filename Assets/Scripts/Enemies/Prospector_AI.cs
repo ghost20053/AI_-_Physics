@@ -23,12 +23,14 @@ public class Prospector_AI : MonoBehaviour
     public AudioClip projectileSound;
     public float soundVolume = 1.0f;
 
-    [Header("Ragdoll & Death")]
+    [Header("Health")]
+    public int maxHealth = 100;
+    private int currentHealth;
+
     private Animator animator;
     private Rigidbody[] ragdollBodies;
     private NavMeshAgent agent;
     private bool isDead = false;
-
     private bool isHearingSound = false;
 
     void Start()
@@ -37,17 +39,17 @@ public class Prospector_AI : MonoBehaviour
         animator = GetComponent<Animator>();
         ragdollBodies = GetComponentsInChildren<Rigidbody>();
 
-        SetRagdoll(false); // start alive
+        SetRagdoll(false);
         ChooseNewPatrolPoint();
+
+        currentHealth = maxHealth;
     }
 
     void Update()
     {
-        if (isDead) return; // stop AI if dead
-
+        if (isDead) return;
         if (isHearingSound) return;
 
-        // Patrol logic
         if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
         {
             waitTimer += Time.deltaTime;
@@ -59,20 +61,14 @@ public class Prospector_AI : MonoBehaviour
         }
     }
 
-    // ---------------- Patrol ----------------
     void ChooseNewPatrolPoint()
     {
-        Vector3 randomDirection = Random.insideUnitSphere * patrolRadius;
-        randomDirection += transform.position;
+        Vector3 randomDirection = Random.insideUnitSphere * patrolRadius + transform.position;
 
-        NavMeshHit hit;
-        if (NavMesh.SamplePosition(randomDirection, out hit, patrolRadius, NavMesh.AllAreas))
-        {
+        if (NavMesh.SamplePosition(randomDirection, out NavMeshHit hit, patrolRadius, NavMesh.AllAreas))
             agent.SetDestination(hit.position);
-        }
     }
 
-    // ---------------- Sound Reaction ----------------
     public void HearSound(Vector3 soundPos)
     {
         if (isDead) return;
@@ -89,7 +85,6 @@ public class Prospector_AI : MonoBehaviour
         isHearingSound = true;
         agent.isStopped = true;
 
-        // Face sound
         Vector3 direction = (soundPos - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
         float elapsed = 0f;
@@ -109,48 +104,49 @@ public class Prospector_AI : MonoBehaviour
 
     void ThrowProjectile(Vector3 target)
     {
-        if (projectilePrefab && projectileSpawnPoint)
+        if (projectilePrefab && projectileSpawnPoint && Time.time > nextFire)
         {
-            if (Time.time > nextFire)
+            nextFire = Time.time + fireRate;
+
+            GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, Quaternion.identity);
+            Rigidbody rb = projectile.GetComponent<Rigidbody>();
+            AudioSource.PlayClipAtPoint(projectileSound, transform.position, soundVolume);
+
+            if (rb != null)
             {
-                nextFire = Time.time + fireRate;
-
-                GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, Quaternion.identity);
-                Rigidbody rb = projectile.GetComponent<Rigidbody>();
-                AudioSource.PlayClipAtPoint(projectileSound, transform.position, soundVolume);
-
-                if (rb)
-                {
-                    Vector3 direction = (target - projectileSpawnPoint.position).normalized;
-                    rb.AddForce(direction * projectileForce, ForceMode.VelocityChange);
-                }
+                Vector3 direction = (target - projectileSpawnPoint.position).normalized;
+                rb.AddForce(direction * projectileForce, ForceMode.VelocityChange);
             }
         }
     }
 
-    // ---------------- Death / Ragdoll ----------------
+    // ---------------- Health & Death ----------------
+    public void TakeDamage(int damage)
+    {
+        if (isDead) return;
+
+        currentHealth -= damage;
+        if (currentHealth <= 0)
+            EnableRagdoll();
+    }
+
     public void EnableRagdoll()
     {
         if (isDead) return;
 
         isDead = true;
 
-        // Stop AI
         if (animator != null) animator.enabled = false;
         if (agent != null) agent.enabled = false;
 
-        // Enable physics on body parts
         foreach (var rb in ragdollBodies)
         {
             rb.isKinematic = false;
             rb.useGravity = true;
         }
 
-        // Notify EnemyManager
         if (EnemyManager.Instance != null)
-        {
             EnemyManager.Instance.EnemyDied();
-        }
     }
 
     private void SetRagdoll(bool active)
