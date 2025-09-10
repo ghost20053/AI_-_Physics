@@ -1,62 +1,75 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
-    public GameObject pauseMenu;
-    public static bool isPaused;
+    [Header("UI References")]
+    public GameObject pauseMenu;   // The pause menu panel (disabled by default)
 
-    // Start is called before the first frame update
-    void Start()
+    public static bool isPaused = false;
+
+    private void Start()
     {
-        pauseMenu.SetActive(false);
-        Cursor.visible = false;
+        if (pauseMenu != null)
+            pauseMenu.SetActive(false);
+
+        isPaused = false;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        // Toggle pause when Escape is pressed
+        if (Keyboard.current.escapeKey.wasPressedThisFrame)
         {
-            if (isPaused)
-            {
-                ResumeGame();
-            }
-            else
-            {
-                PauseGame();
-            }
+            if (isPaused) ResumeGame();
+            else PauseGame();
         }
     }
 
-    // Pause Game
+    // ---------------- Pause / Resume ----------------
     public void PauseGame()
     {
-        pauseMenu.SetActive(true);
+        if (pauseMenu != null)
+            pauseMenu.SetActive(true);
+
         Time.timeScale = 0f;
         isPaused = true;
 
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+
+        // Hide gameplay UI (ammo, bullets, enemies left)
+        if (GameUIManager.Instance != null)
+            GameUIManager.Instance.ToggleUI(false);
     }
 
-    // Unpause Game
     public void ResumeGame()
     {
-        pauseMenu.SetActive(false);
+        if (pauseMenu != null)
+            pauseMenu.SetActive(false);
+
         Time.timeScale = 1f;
         isPaused = false;
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+
+        // Show gameplay UI again
+        if (GameUIManager.Instance != null)
+            GameUIManager.Instance.ToggleUI(true);
     }
 
-    // Go to Menu
-    public void Menu()
+    // ---------------- Extra Menu Options ----------------
+    public void RestartLevel()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("Menu");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void QuitGame()
+    {
+        Debug.Log("Quitting game...");
+        Application.Quit();
     }
 }

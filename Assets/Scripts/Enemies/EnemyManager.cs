@@ -38,11 +38,8 @@ public class EnemyManager : MonoBehaviour
 
     private void UpdateUI()
     {
-        if (enemyCounterText != null)
-        {
-            int remaining = totalEnemies - deadEnemies;
-            enemyCounterText.text = $"Enemies Left: {remaining}";
-        }
+        int remaining = totalEnemies - deadEnemies;
+        GameUIManager.Instance.UpdateEnemyCounter(remaining);
     }
 
     private void PlayerWins()

@@ -5,9 +5,10 @@ using TMPro;
 [System.Serializable]
 public class BulletType
 {
-    public GameObject prefab;       // Prefab of this bullet type
+    public GameObject prefab;       // Bullet prefab
+    public Sprite icon;             // Icon for UI
     public int magazineSize = 30;   // Bullets per magazine
-    public int bulletsLeft;         // Bullets currently in the mag
+    public int bulletsLeft;         // Bullets currently in mag
     public int reserveAmmo = 90;    // Extra ammo for reloading
 }
 
@@ -40,18 +41,17 @@ public class Player : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();
 
-        // Fill mags for all bullet types at the start
         foreach (var bt in bulletTypes)
-        {
             bt.bulletsLeft = bt.magazineSize;
-        }
 
+        // Setup bullet UI at game start
+        GameUIManager.Instance.SetupBulletUI(bulletTypes);
         UpdateUI();
 
-        // Lock the cursor to the center of the screen
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
+
 
     private void Update()
     {
@@ -188,14 +188,10 @@ public class Player : MonoBehaviour
     // ---------------- UI ----------------
     private void UpdateUI()
     {
-        if (bulletTypes.Length == 0) return;
-
-        BulletType current = bulletTypes[currentBulletIndex];
-
-        if (ammoDisplay != null)
-            ammoDisplay.text = $"{current.bulletsLeft} / {current.reserveAmmo}";
-
-        if (bulletTypeText != null)
-            bulletTypeText.text = $"Bullet: {current.prefab.name}";
+        for (int i = 0; i < bulletTypes.Length; i++)
+        {
+            bool isActive = (i == currentBulletIndex);
+            GameUIManager.Instance.UpdateBulletUI(bulletTypes[i], i, isActive);
+        }
     }
 }
