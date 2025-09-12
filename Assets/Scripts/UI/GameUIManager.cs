@@ -16,8 +16,14 @@ public class GameUIManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null) Instance = this;
-        else Destroy(gameObject);
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     // ---------------- Bullet UI ----------------
@@ -25,16 +31,18 @@ public class GameUIManager : MonoBehaviour
     {
         // Remove old slots
         foreach (Transform child in bulletUIContainer)
+        {
             Destroy(child.gameObject);
 
-        bulletSlots = new BulletUISlot[bulletTypes.Length];
+            bulletSlots = new BulletUISlot[bulletTypes.Length];
 
-        for (int i = 0; i < bulletTypes.Length; i++)
-        {
-            GameObject slotObj = Instantiate(bulletSlotPrefab, bulletUIContainer);
-            BulletUISlot slot = slotObj.GetComponent<BulletUISlot>();
-            slot.Setup(bulletTypes[i]);
-            bulletSlots[i] = slot;
+            for (int i = 0; i < bulletTypes.Length; i++)
+            {
+                GameObject slotObj = Instantiate(bulletSlotPrefab, bulletUIContainer);
+                BulletUISlot slot = slotObj.GetComponent<BulletUISlot>();
+                slot.Setup(bulletTypes[i]);
+                bulletSlots[i] = slot;
+            }
         }
     }
 
@@ -51,16 +59,22 @@ public class GameUIManager : MonoBehaviour
     public void UpdateEnemyCounter(int remaining)
     {
         if (enemyCounterText != null)
+        {
             enemyCounterText.text = $"Enemies Left: {remaining}";
+        }
     }
 
     // ---------------- Pause / Resume ----------------
     public void ToggleUI(bool visible)
     {
         if (bulletUIContainer != null)
+        {
             bulletUIContainer.gameObject.SetActive(visible);
+        }
 
         if (enemyCounterText != null)
+        {
             enemyCounterText.gameObject.SetActive(visible);
+        }
     }
 }

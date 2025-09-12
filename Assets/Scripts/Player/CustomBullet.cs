@@ -28,42 +28,58 @@ public class CustomBullet : MonoBehaviour
 
     private void Update()
     {
-        if (collisions > maxCollisions) Explode();
+        if (collisions > maxCollisions)
+        {
+            Explode();
+        }
 
         maxLifetime -= Time.deltaTime;
-        if (maxLifetime <= 0) Explode();
+        if (maxLifetime <= 0)
+        {
+            Explode();
+
+        }
     }
 
     private void Explode()
     {
         if (explosion != null)
+        {
             Instantiate(explosion, transform.position, Quaternion.identity);
-
+        }
         Collider[] enemies = Physics.OverlapSphere(transform.position, explosionRange, whatIsEnemies);
         foreach (Collider enemy in enemies)
         {
             // Deal damage if AI
             Prospector_AI ai = enemy.GetComponent<Prospector_AI>();
             if (ai != null)
+            {
                 ai.TakeDamage(explosionDamage);
-
+            }
             // Apply physics force
             Rigidbody enemyRb = enemy.GetComponent<Rigidbody>();
             if (enemyRb != null)
+            {
                 enemyRb.AddExplosionForce(explosionForce, transform.position, explosionRange);
-        }
 
+            }
+        }
         Invoke(nameof(DestroyBullet), 0.05f);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.CompareTag("Bullet")) return;
+        if (collision.collider.CompareTag("Bullet"))
+        {
+            return;
+        }
 
         collisions++;
 
         if (collision.collider.CompareTag("Enemy") && explodeOnTouch)
+        {
             Explode();
+        }
     }
 
     private void Setup()

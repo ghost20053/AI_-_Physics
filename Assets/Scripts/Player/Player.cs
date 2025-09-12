@@ -168,6 +168,18 @@ public class Player : MonoBehaviour
             currentBulletIndex = 1;
         if (Keyboard.current.digit3Key.wasPressedThisFrame && bulletTypes.Length > 2)
             currentBulletIndex = 2;
+        if (Keyboard.current.digit4Key.wasPressedThisFrame && bulletTypes.Length > 3)
+            currentBulletIndex = 3;
+        if (Keyboard.current.digit5Key.wasPressedThisFrame && bulletTypes.Length > 4)
+            currentBulletIndex = 4;
+        if (Keyboard.current.digit6Key.wasPressedThisFrame && bulletTypes.Length > 5)
+            currentBulletIndex = 5;
+        if (Keyboard.current.digit7Key.wasPressedThisFrame && bulletTypes.Length > 6)
+            currentBulletIndex = 8;
+        if (Keyboard.current.digit8Key.wasPressedThisFrame && bulletTypes.Length > 7)
+            currentBulletIndex = 7;
+        if (Keyboard.current.digit9Key.wasPressedThisFrame && bulletTypes.Length > 8)
+            currentBulletIndex = 8;
 
         // Scroll wheel
         float scroll = Mouse.current.scroll.y.ReadValue();
