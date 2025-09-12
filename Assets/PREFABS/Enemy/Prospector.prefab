@@ -45,7 +45,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2784230889131545006}
-  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &8459194364429999063
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -132,9 +132,10 @@ MonoBehaviour:
   projectilePrefab: {fileID: 5680938363587573523, guid: 0c01de3093376c84ab7b66b1855988b5, type: 3}
   projectileSpawnPoint: {fileID: 6557828739384018605}
   projectileForce: 20
+  fireRate: 0.5
   projectileSound: {fileID: 8300000, guid: 1094e88abb7719f4f8b97d27c3ab5b4c, type: 3}
   soundVolume: 1
-  fireRate: 0.5
+  maxHealth: 100
 --- !u!195 &6078887777771920360
 NavMeshAgent:
   m_ObjectHideFlags: 0

@@ -42,7 +42,9 @@ public class Player : MonoBehaviour
         controller = GetComponent<CharacterController>();
 
         foreach (var bt in bulletTypes)
+        {
             bt.bulletsLeft = bt.magazineSize;
+        }
 
         // Setup bullet UI at game start
         GameUIManager.Instance.SetupBulletUI(bulletTypes);
@@ -114,7 +116,9 @@ public class Player : MonoBehaviour
     private void HandleShooting()
     {
         if (Mouse.current.leftButton.wasPressedThisFrame)
+        {
             Shoot();
+        }
     }
 
     private void Shoot()
@@ -138,12 +142,17 @@ public class Player : MonoBehaviour
     private void HandleReload()
     {
         if (Keyboard.current.rKey.wasPressedThisFrame)
+        {
             Reload();
+        }
     }
 
     private void Reload()
     {
-        if (bulletTypes.Length == 0) return;
+        if (bulletTypes.Length == 0)
+        {
+            return;
+        }
 
         BulletType current = bulletTypes[currentBulletIndex];
         int needed = current.magazineSize - current.bulletsLeft;
