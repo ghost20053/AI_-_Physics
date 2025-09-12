@@ -27,5 +27,12 @@ public class Timer : MonoBehaviour
         int seconds = Mathf.FloorToInt(remainingTime % 60);
         CountDownTimerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
     }
+    public void ToggleUI(bool visible)
+    {
+        if (CountDownTimerText != null)
+        {
+            CountDownTimerText.gameObject.SetActive(visible);
+        }
+    }
 }
 

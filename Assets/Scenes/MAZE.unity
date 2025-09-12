@@ -13155,6 +13155,10 @@ PrefabInstance:
       propertyPath: m_fontStyle
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6910146951219408973, guid: 6834235427414034ca5c522a632b3015, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 4721570850333449918, guid: 215687feeab0b7445b4a1cd86c82c2e1, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
