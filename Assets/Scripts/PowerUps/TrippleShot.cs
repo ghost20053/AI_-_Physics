@@ -1,8 +1,12 @@
+using TMPro;
 using UnityEngine;
 
 public class TrippleShot : MonoBehaviour
 {
-   private void OnTriggerEnter(Collider other)
+    [SerializeField] TextMeshProUGUI CountDownPowerUpText;
+
+    [SerializeField] float remainingTime;
+    private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Player"))
         {

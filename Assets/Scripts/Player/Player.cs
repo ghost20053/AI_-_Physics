@@ -70,7 +70,9 @@ public class Player : MonoBehaviour
         // Ground check
         isGrounded = controller.isGrounded;
         if (isGrounded && velocity.y < 0)
+        {
             velocity.y = -2f; // Keeps player "stuck" to the ground
+        }
 
         // WASD input
         float moveX = Keyboard.current.aKey.isPressed ? -1 :
@@ -96,7 +98,10 @@ public class Player : MonoBehaviour
     // ---------------- Camera Look ----------------
     private void HandleLook()
     {
-        if (PauseMenu.isPaused) return;
+        if (PauseMenu.isPaused) 
+        { 
+            return; 
+        }
 
         Vector2 mouseDelta = Mouse.current.delta.ReadValue();
         float mouseX = mouseDelta.x * mouseSensitivity;
@@ -123,16 +128,24 @@ public class Player : MonoBehaviour
 
     private void Shoot()
     {
-        if (bulletTypes.Length == 0) return;
+        if (bulletTypes.Length == 0)
+        { 
+            return; 
+        }
 
         BulletType current = bulletTypes[currentBulletIndex];
-        if (current.bulletsLeft <= 0) return; // Out of ammo
+        if (current.bulletsLeft <= 0)
+        {
+            return; // Out of ammo
+        }
 
         // Spawn bullet
         GameObject bullet = Instantiate(current.prefab, attackPoint.position, attackPoint.rotation);
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
         if (rb != null)
+        {
             rb.AddForce(attackPoint.forward * shootForce, ForceMode.Impulse);
+        }
 
         current.bulletsLeft--;
         UpdateUI();
@@ -195,12 +208,18 @@ public class Player : MonoBehaviour
         if (scroll > 0f)
         {
             currentBulletIndex++;
-            if (currentBulletIndex >= bulletTypes.Length) currentBulletIndex = 0;
+            if (currentBulletIndex >= bulletTypes.Length)
+            {
+                currentBulletIndex = 0;
+            }
         }
         else if (scroll < 0f)
         {
             currentBulletIndex--;
-            if (currentBulletIndex < 0) currentBulletIndex = bulletTypes.Length - 1;
+            if (currentBulletIndex < 0)
+            {
+                currentBulletIndex = bulletTypes.Length - 1;
+            }
         }
 
         UpdateUI();

@@ -47,8 +47,15 @@ public class Prospector_AI : MonoBehaviour
 
     void Update()
     {
-        if (isDead) return;
-        if (isHearingSound) return;
+        if (isDead)
+        {
+            return;
+        }
+        
+        if (isHearingSound)
+        {
+            return;
+        }
 
         if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
         {
@@ -66,12 +73,17 @@ public class Prospector_AI : MonoBehaviour
         Vector3 randomDirection = Random.insideUnitSphere * patrolRadius + transform.position;
 
         if (NavMesh.SamplePosition(randomDirection, out NavMeshHit hit, patrolRadius, NavMesh.AllAreas))
+        {
             agent.SetDestination(hit.position);
+        }
     }
 
     public void HearSound(Vector3 soundPos)
     {
-        if (isDead) return;
+        if (isDead)
+        {
+            return;
+        }
 
         if (Vector3.Distance(transform.position, soundPos) <= hearingRange)
         {
@@ -123,21 +135,36 @@ public class Prospector_AI : MonoBehaviour
     // ---------------- Health & Death ----------------
     public void TakeDamage(int damage)
     {
-        if (isDead) return;
+        if (isDead)
+        {
+            return;
+        }
 
         currentHealth -= damage;
         if (currentHealth <= 0)
+        {
             EnableRagdoll();
+        }
     }
 
+    // Turn into Ragdoll State
     public void EnableRagdoll()
     {
-        if (isDead) return;
+        if (isDead)
+        {
+            return;
+        }
 
         isDead = true;
 
-        if (animator != null) animator.enabled = false;
-        if (agent != null) agent.enabled = false;
+        if (animator != null)
+        {
+            animator.enabled = false;
+        }
+        if (agent != null)
+        {
+            agent.enabled = false;
+        }
 
         foreach (var rb in ragdollBodies)
         {
@@ -146,9 +173,12 @@ public class Prospector_AI : MonoBehaviour
         }
 
         if (EnemyManager.Instance != null)
+        {
             EnemyManager.Instance.EnemyDied();
+        }
     }
 
+    //Checking Ragdoll state
     private void SetRagdoll(bool active)
     {
         if (animator != null) animator.enabled = !active;
