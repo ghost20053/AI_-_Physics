@@ -163,7 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62ac965a6f5b7f84797e457e11eae217, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PowerUps: {fileID: 4801459512879458082, guid: 90662a482a6b25a43bf4afdc490a5390, type: 3}
+  PowerUps: {fileID: 0}
   stopSpawning: 0
   spawnTime: 5
   spawnDelay: 5
@@ -1528,7 +1528,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6584d652e85bff4cb24429b897718ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawner: {fileID: 2784230889131545006, guid: 717cdc5170c18fe47a0bcc405ec11971, type: 3}
+  spawner: {fileID: 0}
   stopSpawning: 0
   spawnTime: 5
   spawnDelay: 15
@@ -3872,7 +3872,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62ac965a6f5b7f84797e457e11eae217, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PowerUps: {fileID: 4801459512879458082, guid: 90662a482a6b25a43bf4afdc490a5390, type: 3}
+  PowerUps: {fileID: 0}
   stopSpawning: 0
   spawnTime: 5
   spawnDelay: 5
@@ -3920,7 +3920,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6584d652e85bff4cb24429b897718ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawner: {fileID: 2784230889131545006, guid: 717cdc5170c18fe47a0bcc405ec11971, type: 3}
+  spawner: {fileID: 0}
   stopSpawning: 0
   spawnTime: 5
   spawnDelay: 15
@@ -9508,7 +9508,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6584d652e85bff4cb24429b897718ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawner: {fileID: 2784230889131545006, guid: 717cdc5170c18fe47a0bcc405ec11971, type: 3}
+  spawner: {fileID: 0}
   stopSpawning: 0
   spawnTime: 5
   spawnDelay: 15
@@ -10267,7 +10267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62ac965a6f5b7f84797e457e11eae217, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PowerUps: {fileID: 4801459512879458082, guid: 90662a482a6b25a43bf4afdc490a5390, type: 3}
+  PowerUps: {fileID: 0}
   stopSpawning: 0
   spawnTime: 5
   spawnDelay: 5
@@ -11527,7 +11527,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62ac965a6f5b7f84797e457e11eae217, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PowerUps: {fileID: 4801459512879458082, guid: 90662a482a6b25a43bf4afdc490a5390, type: 3}
+  PowerUps: {fileID: 0}
   stopSpawning: 0
   spawnTime: 5
   spawnDelay: 5
@@ -11833,7 +11833,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6584d652e85bff4cb24429b897718ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawner: {fileID: 2784230889131545006, guid: 717cdc5170c18fe47a0bcc405ec11971, type: 3}
+  spawner: {fileID: 0}
   stopSpawning: 0
   spawnTime: 5
   spawnDelay: 15
@@ -11881,7 +11881,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62ac965a6f5b7f84797e457e11eae217, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PowerUps: {fileID: 4801459512879458082, guid: 90662a482a6b25a43bf4afdc490a5390, type: 3}
+  PowerUps: {fileID: 0}
   stopSpawning: 0
   spawnTime: 5
   spawnDelay: 5
