@@ -19,7 +19,7 @@ public class PowerUpSpawner : MonoBehaviour
         Instantiate(PowerUps, transform.position, transform.rotation);
         if(stopSpawning)
         {
-            CancelInvoke("SpawnObject");
+            CancelInvoke("SpawnPowerUps");
         }
     }
 }
