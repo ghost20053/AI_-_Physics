@@ -13,7 +13,7 @@ public class PowerUpSpawner : MonoBehaviour
         InvokeRepeating("SpawnPowerUps", spawnTime, spawnDelay);
     }
 
-    
+    /*
     public void SpawnObject()
     {
         Instantiate(PowerUps, transform.position, transform.rotation);
@@ -22,4 +22,5 @@ public class PowerUpSpawner : MonoBehaviour
             CancelInvoke("SpawnPowerUps");
         }
     }
+    */
 }
