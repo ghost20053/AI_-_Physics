@@ -1,12 +1,11 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class PauseMenu : MonoBehaviour
 {
     [Header("UI References")]
-    public GameObject pauseMenu;   // The pause menu panel (disabled by default)
-
+    public GameObject pauseMenu;
     public static bool isPaused = false;
 
     private void Start()
@@ -19,7 +18,6 @@ public class PauseMenu : MonoBehaviour
 
     private void Update()
     {
-        // Toggle pause when Escape is pressed
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
         {
             if (isPaused) ResumeGame();
@@ -27,40 +25,32 @@ public class PauseMenu : MonoBehaviour
         }
     }
 
-    // ---------------- Pause / Resume ----------------
     public void PauseGame()
     {
-        if (pauseMenu != null)
-            pauseMenu.SetActive(true);
-
+        pauseMenu.SetActive(true);
         Time.timeScale = 0f;
         isPaused = true;
 
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
 
-        // Hide gameplay UI (ammo, bullets, enemies left)
         if (GameUIManager.Instance != null)
             GameUIManager.Instance.ToggleUI(false);
     }
 
     public void ResumeGame()
     {
-        if (pauseMenu != null)
-            pauseMenu.SetActive(false);
-
+        pauseMenu.SetActive(false);
         Time.timeScale = 1f;
         isPaused = false;
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
-        // Show gameplay UI again
         if (GameUIManager.Instance != null)
             GameUIManager.Instance.ToggleUI(true);
     }
 
-    // ---------------- Extra Menu Options ----------------
     public void RestartLevel()
     {
         Time.timeScale = 1f;

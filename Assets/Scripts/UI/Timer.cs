@@ -1,23 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 
 public class Timer : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI CountDownTimerText;
+    [SerializeField] private TextMeshProUGUI countDownTimerText;
+    [SerializeField] private float remainingTime = 300f; // Default 5 minutes
 
-    [SerializeField] float remainingTime;
-
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
+        if (PauseMenu.isPaused) return; // don’t tick if paused
+
         if (remainingTime > 0)
         {
             remainingTime -= Time.deltaTime;
         }
-        else if (remainingTime < 0)
+        else if (remainingTime <= 0)
         {
             remainingTime = 0;
             SceneManager.LoadScene("Menu");
@@ -25,14 +23,12 @@ public class Timer : MonoBehaviour
 
         int minutes = Mathf.FloorToInt(remainingTime / 60);
         int seconds = Mathf.FloorToInt(remainingTime % 60);
-        CountDownTimerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+        countDownTimerText.text = $"{minutes:00}:{seconds:00}";
     }
+
     public void ToggleUI(bool visible)
     {
-        if (CountDownTimerText != null)
-        {
-            CountDownTimerText.gameObject.SetActive(visible);
-        }
+        if (countDownTimerText != null)
+            countDownTimerText.gameObject.SetActive(visible);
     }
 }
-

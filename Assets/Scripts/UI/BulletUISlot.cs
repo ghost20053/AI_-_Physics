@@ -4,12 +4,10 @@ using UnityEngine.UI;
 
 public class BulletUISlot : MonoBehaviour
 {
-    [Header("UI")]
-    public Image icon;                // Icon of this bullet type
-    public TextMeshProUGUI ammoText;  // Shows ammo
-    public Image highlight;           // Active weapon highlight
+    public Image icon;
+    public TextMeshProUGUI ammoText;
+    public Image highlight;
 
-    // Setup slot once at start
     public void Setup(BulletType bullet)
     {
         if (icon != null && bullet.icon != null)
@@ -18,7 +16,6 @@ public class BulletUISlot : MonoBehaviour
         UpdateSlot(bullet, false);
     }
 
-    // Called whenever ammo or selection changes
     public void UpdateSlot(BulletType bullet, bool isActive)
     {
         if (ammoText != null)
