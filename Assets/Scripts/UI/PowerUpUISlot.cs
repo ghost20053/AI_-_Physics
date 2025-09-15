@@ -43,9 +43,12 @@ public class PowerUpUISlot : MonoBehaviour
 
         timer -= Time.deltaTime;
         if (timerSlider != null)
+        {
             timerSlider.value = timer;
-
+        }
         if (timer <= 0)
+        {
             PowerUpUIManager.Instance.RemovePowerUp(type);
+        }
     }
 }

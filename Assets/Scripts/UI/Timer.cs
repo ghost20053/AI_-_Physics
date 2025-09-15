@@ -29,6 +29,8 @@ public class Timer : MonoBehaviour
     public void ToggleUI(bool visible)
     {
         if (countDownTimerText != null)
+        {
             countDownTimerText.gameObject.SetActive(visible);
+        }
     }
 }

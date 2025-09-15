@@ -23,7 +23,10 @@ public class CamFollow : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (PauseMenu.isPaused) return;
+        if (PauseMenu.isPaused)
+        {
+            return;
+        }
 
         // 1) Position: follow player smoothly
         if (cameraPivot != null)

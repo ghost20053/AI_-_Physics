@@ -48,7 +48,10 @@ public class PlayerGun : MonoBehaviour
 
         // Find PlayerMovement and grab its camera reference
         PlayerMovement pm = GetComponent<PlayerMovement>();
-        if (pm != null) fpsCam = pm.GetPlayerCamera();
+        if (pm != null)
+        {
+            fpsCam = pm.GetPlayerCamera();
+        }
 
         bulletsLeft = magazineSize;
         readyToShoot = true;
@@ -59,7 +62,9 @@ public class PlayerGun : MonoBehaviour
         HandleInput();
 
         if (ammoDisplay != null)
+        {
             ammoDisplay.SetText(bulletsLeft / bulletsPerTap + " / " + magazineSize / bulletsPerTap);
+        }
     }
 
     private void HandleInput()
@@ -100,7 +105,9 @@ public class PlayerGun : MonoBehaviour
         bulletRb.AddForce(fpsCam.transform.up * upwardForce, ForceMode.Impulse);
 
         if (muzzleFlash != null)
+        {
             Instantiate(muzzleFlash, attackPoint.position, Quaternion.identity);
+        }
 
         bulletsLeft--;
         bulletsShot++;
@@ -114,7 +121,9 @@ public class PlayerGun : MonoBehaviour
         }
 
         if (bulletsShot < bulletsPerTap && bulletsLeft > 0)
+        {
             Invoke(nameof(Shoot), timeBetweenShots);
+        }
     }
 
     private void ResetShot()

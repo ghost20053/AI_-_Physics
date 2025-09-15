@@ -11,8 +11,9 @@ public class PauseMenu : MonoBehaviour
     private void Start()
     {
         if (pauseMenu != null)
+        {
             pauseMenu.SetActive(false);
-
+        }
         isPaused = false;
     }
 
@@ -20,8 +21,14 @@ public class PauseMenu : MonoBehaviour
     {
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
         {
-            if (isPaused) ResumeGame();
-            else PauseGame();
+            if (isPaused)
+            {
+                ResumeGame();
+            }
+            else
+            {
+                PauseGame();
+            }
         }
     }
 
@@ -35,7 +42,9 @@ public class PauseMenu : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
 
         if (GameUIManager.Instance != null)
+        {
             GameUIManager.Instance.ToggleUI(false);
+        }
     }
 
     public void ResumeGame()
@@ -48,7 +57,9 @@ public class PauseMenu : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
 
         if (GameUIManager.Instance != null)
+        {
             GameUIManager.Instance.ToggleUI(true);
+        }
     }
 
     public void RestartLevel()

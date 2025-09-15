@@ -14,8 +14,14 @@ public class EnemyManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null) Instance = this;
-        else Destroy(gameObject);
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void Start()
@@ -33,7 +39,9 @@ public class EnemyManager : MonoBehaviour
         UpdateUI();
 
         if (deadEnemies >= totalEnemies)
+        {
             PlayerWins();
+        }
     }
 
     private void UpdateUI()
@@ -47,7 +55,9 @@ public class EnemyManager : MonoBehaviour
         Debug.Log("Player Wins!");
 
         if (winScreen != null)
+        {
             winScreen.SetActive(true);
+        }
 
         Time.timeScale = 0f;
     }

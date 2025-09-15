@@ -52,7 +52,9 @@ public class PlayerMovement : MonoBehaviour
     {
         // Disable controls if ragdoll is active
         if (playerRagdoll != null && playerRagdoll.IsRagdoll)
+        {
             return;
+        }
 
         // Check if movement input exists
         Vector2 input = actionMovement.ReadValue<Vector2>();
@@ -105,9 +107,13 @@ public class PlayerMovement : MonoBehaviour
     private void ApplyGravity()
     {
         if (!playerController.isGrounded)
+        {
             moveDirection.y -= playerGravity * Time.deltaTime;
+        }
         else if (moveDirection.y < 0)
+        {
             moveDirection.y = -1f;
+        }
     }
 
     private void MakeNoise()
@@ -117,7 +123,9 @@ public class PlayerMovement : MonoBehaviour
         {
             Prospector_AI enemy = hit.GetComponent<Prospector_AI>();
             if (enemy != null)
+            {
                 enemy.HearSound(transform.position);
+            }
         }
     }
 

@@ -42,11 +42,16 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        if (controller == null) controller = GetComponent<CharacterController>();
+        if (controller == null)
+        {
+            controller = GetComponent<CharacterController>();
+        }
 
         // Fill mags at start
         foreach (var bt in bulletTypes)
+        {
             bt.bulletsLeft = bt.magazineSize;
+        }
 
         // Setup UI
         GameUIManager.Instance.SetupBulletUI(bulletTypes);
@@ -71,7 +76,9 @@ public class Player : MonoBehaviour
     {
         isGrounded = controller.isGrounded;
         if (isGrounded && velocity.y < 0)
+        {
             velocity.y = -2f;
+        }
 
         float moveX = Keyboard.current.aKey.isPressed ? -1 :
                       Keyboard.current.dKey.isPressed ? 1 : 0;
@@ -82,7 +89,9 @@ public class Player : MonoBehaviour
         controller.Move(move * moveSpeed * Time.deltaTime);
 
         if (isGrounded && Keyboard.current.spaceKey.wasPressedThisFrame)
+        {
             velocity.y = Mathf.Sqrt(jumpForce * -2f * gravity);
+        }
 
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
@@ -113,10 +122,14 @@ public class Player : MonoBehaviour
                 nextFireTime = Time.time + fireRate;
 
                 for (int i = 0; i < extraShots; i++)
+                {
                     ShootBullet(bullet);
+                }
 
                 if (!infiniteAmmoActive)
+                {
                     bullet.bulletsLeft--;
+                }
 
                 UpdateUI();
             }
@@ -125,7 +138,11 @@ public class Player : MonoBehaviour
 
     private void ShootBullet(BulletType bullet)
     {
-        if (bullet.prefab == null) return;
+        if (bullet.prefab == null)
+        {
+            return;
+        }
+
         Instantiate(bullet.prefab, shootPoint.position, playerCamera.transform.rotation);
     }
 
@@ -149,9 +166,20 @@ public class Player : MonoBehaviour
     // ---------------- Weapon Switching ----------------
     private void HandleWeaponSwitch()
     {
-        if (Keyboard.current.digit1Key.wasPressedThisFrame) currentBulletIndex = 0;
-        if (Keyboard.current.digit2Key.wasPressedThisFrame && bulletTypes.Length > 1) currentBulletIndex = 1;
-        if (Keyboard.current.digit3Key.wasPressedThisFrame && bulletTypes.Length > 2) currentBulletIndex = 2;
+        if (Keyboard.current.digit1Key.wasPressedThisFrame)
+        {
+            currentBulletIndex = 0;
+        }
+
+        if (Keyboard.current.digit2Key.wasPressedThisFrame && bulletTypes.Length > 1)
+        {
+            currentBulletIndex = 1;
+        }
+
+        if (Keyboard.current.digit3Key.wasPressedThisFrame && bulletTypes.Length > 2)
+        {
+            currentBulletIndex = 2;
+        }
 
         float scroll = Mouse.current.scroll.ReadValue().y;
         if (scroll != 0)
@@ -174,7 +202,9 @@ public class Player : MonoBehaviour
         }
 
         if (powerUp.type == PowerUpType.InfiniteAmmo)
+        {
             infiniteAmmoActive = true;
+        }
         else if (powerUp.type == PowerUpType.DoubleShot)
         {
             multiShotActive = true;
@@ -199,12 +229,14 @@ public class Player : MonoBehaviour
             powerUpTimer -= Time.deltaTime;
             if (powerUpTimer <= 0)
             {
-                if (infiniteAmmoActive) PowerUpUIManager.Instance.RemovePowerUp(PowerUpType.InfiniteAmmo);
-                if (multiShotActive)
+                if (infiniteAmmoActive)
                 {
-                    PowerUpUIManager.Instance.RemovePowerUp(extraShots == 2 ? PowerUpType.DoubleShot : PowerUpType.TripleShot);
+                    PowerUpUIManager.Instance.RemovePowerUp(PowerUpType.InfiniteAmmo);
+                    if (multiShotActive)
+                    {
+                        PowerUpUIManager.Instance.RemovePowerUp(extraShots == 2 ? PowerUpType.DoubleShot : PowerUpType.TripleShot);
+                    }
                 }
-
                 infiniteAmmoActive = false;
                 multiShotActive = false;
                 extraShots = 1;
