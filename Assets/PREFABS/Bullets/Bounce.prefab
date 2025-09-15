@@ -157,11 +157,11 @@ MonoBehaviour:
     m_Bits: 8
   bounciness: 0.8
   useGravity: 1
-  explosionDamange: 10
+  explosionDamage: 20
   explosionRange: 1
-  explosionForce: 0
+  explosionForce: 10
   maxCollisions: 1
-  maxLifetime: 1
+  maxLifetime: 5
   explodeOnTouch: 1
 --- !u!96 &322294954931067404
 TrailRenderer:

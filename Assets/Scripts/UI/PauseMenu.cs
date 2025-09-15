@@ -40,6 +40,7 @@ public class PauseMenu : MonoBehaviour
 
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+        
 
         if (GameUIManager.Instance != null)
         {
