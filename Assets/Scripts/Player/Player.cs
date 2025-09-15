@@ -10,6 +10,7 @@ public class BulletType
     public int magazineSize = 30;   // How many per mag
     public int bulletsLeft;         // Bullets currently in mag
     public int reserveAmmo = 90;    // Ammo available for reloading
+    public int damage = 20;         // NEW: damage this bullet does
 }
 
 public class Player : MonoBehaviour
@@ -138,13 +139,26 @@ public class Player : MonoBehaviour
 
     private void ShootBullet(BulletType bullet)
     {
-        if (bullet.prefab == null)
+        if (bullet.prefab == null) return;
+
+        // Spawn the bullet prefab
+        GameObject bulletObj = Instantiate(bullet.prefab, shootPoint.position, playerCamera.transform.rotation);
+
+        // Get CustomBullet script
+        CustomBullet cb = bulletObj.GetComponent<CustomBullet>();
+        if (cb != null && cb.rb == null)
         {
-            return;
+            cb.rb = bulletObj.GetComponent<Rigidbody>();
         }
 
-        Instantiate(bullet.prefab, shootPoint.position, playerCamera.transform.rotation);
+        // Ensure forward velocity if rb exists
+        Rigidbody rb = bulletObj.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.linearVelocity = playerCamera.transform.forward * cb.shootForce;
+        }
     }
+
 
     private void HandleReload()
     {
@@ -166,20 +180,9 @@ public class Player : MonoBehaviour
     // ---------------- Weapon Switching ----------------
     private void HandleWeaponSwitch()
     {
-        if (Keyboard.current.digit1Key.wasPressedThisFrame)
-        {
-            currentBulletIndex = 0;
-        }
-
-        if (Keyboard.current.digit2Key.wasPressedThisFrame && bulletTypes.Length > 1)
-        {
-            currentBulletIndex = 1;
-        }
-
-        if (Keyboard.current.digit3Key.wasPressedThisFrame && bulletTypes.Length > 2)
-        {
-            currentBulletIndex = 2;
-        }
+        if (Keyboard.current.digit1Key.wasPressedThisFrame) currentBulletIndex = 0;
+        if (Keyboard.current.digit2Key.wasPressedThisFrame && bulletTypes.Length > 1) currentBulletIndex = 1;
+        if (Keyboard.current.digit3Key.wasPressedThisFrame && bulletTypes.Length > 2) currentBulletIndex = 2;
 
         float scroll = Mouse.current.scroll.ReadValue().y;
         if (scroll != 0)
@@ -217,8 +220,6 @@ public class Player : MonoBehaviour
         }
 
         powerUpTimer = powerUp.duration;
-
-        // Show on UI
         PowerUpUIManager.Instance.AddPowerUp(powerUp.type, powerUp.icon, powerUp.duration);
     }
 

@@ -2,23 +2,24 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    //Spawning Objects
-    public GameObject spawner;
+    public GameObject enemyPrefab;
     public bool stopSpawning = false;
-    public float spawnTime;
-    public float spawnDelay;
+    public float spawnTime = 2f;
+    public float spawnDelay = 5f;
 
     private void Start()
     {
-        InvokeRepeating("SpawnObject", spawnTime, spawnDelay);
+        InvokeRepeating(nameof(SpawnEnemy), spawnTime, spawnDelay);
     }
 
-    public void SpawnObject()
+    private void SpawnEnemy()
     {
-        Instantiate(spawner, transform.position, transform.rotation);
-        if(stopSpawning)
-        {
-            CancelInvoke("SpawnObject");
-        }
+        GameObject enemy = Instantiate(enemyPrefab, transform.position, transform.rotation);
+
+        if (EnemyManager.Instance != null)
+            EnemyManager.Instance.RegisterEnemy();
+
+        if (stopSpawning)
+            CancelInvoke(nameof(SpawnEnemy));
     }
 }

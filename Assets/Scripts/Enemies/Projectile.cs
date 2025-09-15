@@ -1,36 +1,35 @@
-using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
+    [Header("Explosion Settings")]
     public float explosionRadius = 5f;
     public float explosionForce = 500f;
     public GameObject explosionEffect;
+    public float lifeTime = 5f;
 
-    void OnCollisionEnter(Collision collision)
+    private void Start()
     {
-        // Show explosion effect
-        if (explosionEffect)
-        {
-            Instantiate(explosionEffect, transform.position, Quaternion.identity);
-        }
+        Destroy(gameObject, lifeTime);
+    }
 
-        // Apply force to nearby objects
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (explosionEffect)
+            Instantiate(explosionEffect, transform.position, Quaternion.identity);
+
         Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
         foreach (Collider nearby in colliders)
         {
-            Rigidbody rb = nearby.GetComponent<Rigidbody>();
+            Rigidbody rb = nearby.attachedRigidbody;
             if (rb != null)
-            {
                 rb.AddExplosionForce(explosionForce, transform.position, explosionRadius);
-            }
 
-            // Apply ragdoll knockback if it's the player
-            PlayerRagdoll player = nearby.GetComponentInParent<PlayerRagdoll>();
-            if (player != null)
+            RagdollHandler ragdoll = nearby.GetComponentInParent<RagdollHandler>();
+            if (ragdoll != null && ragdoll.ragdollType == RagdollType.Player)
             {
                 Vector3 forceDir = (nearby.transform.position - transform.position).normalized;
-                player.EnterRagdoll(forceDir * explosionForce);
+                ragdoll.EnterRagdoll(forceDir * explosionForce);
             }
         }
 

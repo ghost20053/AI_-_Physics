@@ -14,22 +14,23 @@ public class EnemyManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
     }
 
     private void Start()
     {
-        // Count enemies at start
-        Prospector_AI[] enemies = Object.FindObjectsByType<Prospector_AI>(FindObjectsSortMode.None);
-        totalEnemies = enemies.Length;
+        var enemies = Object.FindObjectsByType<RagdollHandler>(FindObjectsSortMode.None);
+        foreach (var e in enemies)
+            if (e.ragdollType == RagdollType.Enemy) totalEnemies++;
+
         deadEnemies = 0;
+        UpdateUI();
+    }
+
+    public void RegisterEnemy()
+    {
+        totalEnemies++;
         UpdateUI();
     }
 
@@ -39,26 +40,20 @@ public class EnemyManager : MonoBehaviour
         UpdateUI();
 
         if (deadEnemies >= totalEnemies)
-        {
             PlayerWins();
-        }
     }
 
     private void UpdateUI()
     {
         int remaining = totalEnemies - deadEnemies;
-        GameUIManager.Instance.UpdateEnemyCounter(remaining);
+        if (GameUIManager.Instance != null)
+            GameUIManager.Instance.UpdateEnemyCounter(remaining);
     }
 
     private void PlayerWins()
     {
         Debug.Log("Player Wins!");
-
-        if (winScreen != null)
-        {
-            winScreen.SetActive(true);
-        }
-
+        if (winScreen != null) winScreen.SetActive(true);
         Time.timeScale = 0f;
     }
 }
