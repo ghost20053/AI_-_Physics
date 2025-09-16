@@ -2,9 +2,14 @@
 
 public class EnemyProjectile : MonoBehaviour
 {
-    public float damage = 10f;        // could be used later for HP system
-    public float lifetime = 5f;       // destroy after this many seconds
-    public float hitForce = 20f;      // knockback force applied to player
+    [Header("Explosion Settings")]
+    public GameObject explosionEffect;
+    public float explosionRadius = 5f;
+    public float explosionForce = 20f;
+    public float lifetime = 5f;
+
+    [Header("Damage Settings")]
+    public int damage = 20; // if you add HP later
 
     private void Start()
     {
@@ -13,21 +18,41 @@ public class EnemyProjectile : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.CompareTag("Player"))
+        Explode();
+    }
+
+    private void Explode()
+    {
+        // Spawn explosion effect
+        if (explosionEffect != null)
         {
-            // Get PlayerRagdoll and trigger ragdoll
-            PlayerRagdoll ragdoll = collision.collider.GetComponentInParent<PlayerRagdoll>();
-            if (ragdoll != null)
+            Instantiate(explosionEffect, transform.position, Quaternion.identity);
+        }
+
+        // Detect everything in radius
+        Collider[] hits = Physics.OverlapSphere(transform.position, explosionRadius);
+
+        foreach (Collider hit in hits)
+        {
+            // ✅ Affect Player
+            if (hit.CompareTag("Player"))
             {
-                Vector3 forceDir = (collision.contacts[0].normal * -1f) * hitForce;
-                ragdoll.EnterRagdoll(forceDir);
+                PlayerRagdoll ragdoll = hit.GetComponentInParent<PlayerRagdoll>();
+                if (ragdoll != null)
+                {
+                    Vector3 forceDir = (hit.transform.position - transform.position).normalized * explosionForce;
+                    ragdoll.EnterRagdoll(forceDir);
+                }
             }
 
-            Destroy(gameObject);
+            // ✅ Add force to rigidbodies (props, etc.)
+            Rigidbody rb = hit.attachedRigidbody;
+            if (rb != null)
+            {
+                rb.AddExplosionForce(explosionForce * 50f, transform.position, explosionRadius);
+            }
         }
-        else if (!collision.collider.CompareTag("Enemy")) // avoid killing own AI
-        {
-            Destroy(gameObject);
-        }
+
+        Destroy(gameObject);
     }
 }

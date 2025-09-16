@@ -20,11 +20,11 @@ public class EnemyManager : MonoBehaviour
 
     private void Start()
     {
-        var enemies = Object.FindObjectsByType<RagdollHandler>(FindObjectsSortMode.None);
-        foreach (var e in enemies)
-            if (e.ragdollType == RagdollType.Enemy) totalEnemies++;
-
+        // Count all enemies at start that have a Prospector_AI (or RagdollHandler if you want both systems unified)
+        Prospector_AI[] enemies = FindObjectsOfType<Prospector_AI>();
+        totalEnemies = enemies.Length;
         deadEnemies = 0;
+
         UpdateUI();
     }
 
@@ -46,8 +46,18 @@ public class EnemyManager : MonoBehaviour
     private void UpdateUI()
     {
         int remaining = totalEnemies - deadEnemies;
+
+        // ✅ Update through GameUIManager (preferred central HUD)
         if (GameUIManager.Instance != null)
+        {
             GameUIManager.Instance.UpdateEnemyCounter(remaining);
+        }
+
+        // ✅ Fallback: update direct TMP text if needed
+        if (enemyCounterText != null)
+        {
+            enemyCounterText.text = "Enemies: " + remaining;
+        }
     }
 
     private void PlayerWins()

@@ -139,6 +139,7 @@ public class Prospector_AI : MonoBehaviour
     }
 
 
+
     // -------- Damage + Death ----------
     public void TakeDamage(int amount, Vector3 hitForce)
     {
@@ -162,10 +163,10 @@ public class Prospector_AI : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject); // fallback
+            Destroy(gameObject);
         }
 
-        // Notify EnemyManager if present
-        EnemyManager.Instance?.EnemyDied(this);
+        EnemyManager.Instance?.EnemyDied();
     }
+
 }
