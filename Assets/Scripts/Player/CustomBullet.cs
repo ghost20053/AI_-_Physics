@@ -51,18 +51,27 @@ public class CustomBullet : MonoBehaviour
             Instantiate(explosion, transform.position, Quaternion.identity);
 
         // Check for enemies in range
-        // inside Explode()
-        Collider[] enemies = Physics.OverlapSphere(transform.position, explosionRange, whatIsEnemies);
-        foreach (Collider enemy in enemies)
+        // Inside Explode()
+        Collider[] hits = Physics.OverlapSphere(transform.position, explosionRange, whatIsEnemies);
+        foreach (Collider hit in hits)
         {
-            Prospector_AI ai = enemy.GetComponent<Prospector_AI>();
+            // Hit enemy
+            Prospector_AI ai = hit.GetComponent<Prospector_AI>();
             if (ai != null)
             {
-                Vector3 forceDir = (enemy.transform.position - transform.position).normalized * explosionForce;
+                Vector3 forceDir = (hit.transform.position - transform.position).normalized * explosionForce;
                 ai.TakeDamage(explosionDamage, forceDir);
+                continue;
+            }
+
+            // ✅ Hit destructible wall
+            DestructibleWall wall = hit.GetComponent<DestructibleWall>();
+            if (wall != null)
+            {
+                Vector3 forceDir = (hit.transform.position - transform.position).normalized * explosionForce;
+                wall.TakeDamage(explosionDamage, transform.position, forceDir);
             }
         }
-
 
         Invoke(nameof(DestroyBullet), 0.05f);
     }

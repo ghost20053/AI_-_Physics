@@ -160,6 +160,7 @@ public class Prospector_AI : MonoBehaviour
         if (ragdoll != null)
         {
             ragdoll.EnterRagdoll(hitForce);
+            Destroy(gameObject, 3f); // disappear after 3 seconds
         }
         else
         {
@@ -168,5 +169,4 @@ public class Prospector_AI : MonoBehaviour
 
         EnemyManager.Instance?.EnemyDied();
     }
-
 }
