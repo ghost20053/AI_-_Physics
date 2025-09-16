@@ -2,61 +2,56 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
+[RequireComponent(typeof(NavMeshAgent))]
 public class Prospector_AI : MonoBehaviour
 {
+    [Header("Stats")]
+    public int maxHealth = 100;
+    private int currentHealth;
+    private bool isDead = false;
+
     [Header("Patrol Settings")]
     public float patrolRadius = 10f;
     public float patrolWaitTime = 2f;
     private float waitTimer = 0f;
 
-    [Header("Sound Reaction")]
-    public float hearingRange = 15f;
+    [Header("Detection Settings")]
+    public float hearingRange = 15f;   // how far it can hear player sounds
+    public float attackRange = 20f;    // how close to attack player
 
     [Header("Projectile Settings")]
     public GameObject projectilePrefab;
     public Transform projectileSpawnPoint;
     public float projectileForce = 20f;
-    public float fireRate = 0.5f;
-    private float nextFire = 0.0f;
+    public float fireRate = 1f;
+    private float nextFire = 0f;
 
-    [Header("Audio")]
-    public AudioClip projectileSound;
-    public float soundVolume = 1.0f;
-
-    [Header("Health")]
-    public int maxHealth = 100;
-    private int currentHealth;
-
-    private Animator animator;
-    private Rigidbody[] ragdollBodies;
+    [Header("References")]
     private NavMeshAgent agent;
-    private bool isDead = false;
-    private bool isHearingSound = false;
+    private Transform player;
+    private bool reactingToSound = false;
 
-    void Start()
+    [Header("Ragdoll")]
+    private EnemyRagdoll ragdoll;
+
+    private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>();
-        ragdollBodies = GetComponentsInChildren<Rigidbody>();
-
-        SetRagdoll(false);
-        ChooseNewPatrolPoint();
+        ragdoll = GetComponent<EnemyRagdoll>();
+        player = GameObject.FindGameObjectWithTag("Player").transform;
 
         currentHealth = maxHealth;
+        ChooseNewPatrolPoint();
     }
 
-    void Update()
+    private void Update()
     {
-        if (isDead)
-        {
-            return;
-        }
-        
-        if (isHearingSound)
-        {
-            return;
-        }
+        if (isDead) return;
 
+        // If reacting to sound, AI will stop patrolling
+        if (reactingToSound) return;
+
+        // Patrol
         if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
         {
             waitTimer += Time.deltaTime;
@@ -66,11 +61,25 @@ public class Prospector_AI : MonoBehaviour
                 waitTimer = 0f;
             }
         }
+
+        // Check if player in hearing range
+        if (Vector3.Distance(transform.position, player.position) <= hearingRange)
+        {
+            HearSound(player.position);
+        }
+
+        // Attack if in range
+        if (Vector3.Distance(transform.position, player.position) <= attackRange)
+        {
+            AttackPlayer();
+        }
     }
 
-    void ChooseNewPatrolPoint()
+    // Picks a random point to patrol to
+    private void ChooseNewPatrolPoint()
     {
-        Vector3 randomDirection = Random.insideUnitSphere * patrolRadius + transform.position;
+        Vector3 randomDirection = Random.insideUnitSphere * patrolRadius;
+        randomDirection += transform.position;
 
         if (NavMesh.SamplePosition(randomDirection, out NavMeshHit hit, patrolRadius, NavMesh.AllAreas))
         {
@@ -78,27 +87,23 @@ public class Prospector_AI : MonoBehaviour
         }
     }
 
+    // Called when the AI hears something
     public void HearSound(Vector3 soundPos)
     {
-        if (isDead)
-        {
-            return;
-        }
-
         if (Vector3.Distance(transform.position, soundPos) <= hearingRange)
         {
             StartCoroutine(ReactToSound(soundPos));
-            ThrowProjectile(soundPos);
         }
     }
 
-    IEnumerator ReactToSound(Vector3 soundPos)
+    private IEnumerator ReactToSound(Vector3 soundPos)
     {
-        isHearingSound = true;
+        reactingToSound = true;
         agent.isStopped = true;
 
-        Vector3 direction = (soundPos - transform.position).normalized;
-        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+        // Turn towards sound
+        Vector3 dir = (soundPos - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(dir.x, 0, dir.z));
         float elapsed = 0f;
 
         while (elapsed < 0.5f)
@@ -109,90 +114,58 @@ public class Prospector_AI : MonoBehaviour
         }
 
         yield return new WaitForSeconds(1.5f);
-
         agent.isStopped = false;
-        isHearingSound = false;
+        reactingToSound = false;
     }
 
-    void ThrowProjectile(Vector3 target)
+    private void AttackPlayer()
     {
-        if (projectilePrefab && projectileSpawnPoint && Time.time > nextFire)
+        if (Time.time > nextFire)
         {
             nextFire = Time.time + fireRate;
 
-            GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, Quaternion.identity);
-            Rigidbody rb = projectile.GetComponent<Rigidbody>();
-            AudioSource.PlayClipAtPoint(projectileSound, transform.position, soundVolume);
-
-            if (rb != null)
+            if (projectilePrefab && projectileSpawnPoint)
             {
-                Vector3 direction = (target - projectileSpawnPoint.position).normalized;
-                rb.AddForce(direction * projectileForce, ForceMode.VelocityChange);
+                GameObject proj = Instantiate(projectilePrefab, projectileSpawnPoint.position, Quaternion.identity);
+                Rigidbody rb = proj.GetComponent<Rigidbody>();
+
+                if (rb)
+                {
+                    Vector3 dir = (player.position - projectileSpawnPoint.position).normalized;
+                    rb.AddForce(dir * projectileForce, ForceMode.VelocityChange);
+                }
             }
         }
     }
 
-    // ---------------- Health & Death ----------------
-    public void TakeDamage(int damage)
-    {
-        if (isDead)
-        {
-            return;
-        }
 
-        currentHealth -= damage;
+    // -------- Damage + Death ----------
+    public void TakeDamage(int amount, Vector3 hitForce)
+    {
+        if (isDead) return;
+
+        currentHealth -= amount;
         if (currentHealth <= 0)
         {
-            EnableRagdoll();
+            Die(hitForce);
         }
     }
 
-    // Turn into Ragdoll State
-    public void EnableRagdoll()
+    private void Die(Vector3 hitForce)
     {
-        if (isDead)
-        {
-            return;
-        }
-
         isDead = true;
+        agent.enabled = false;
 
-        if (animator != null)
+        if (ragdoll != null)
         {
-            animator.enabled = false;
+            ragdoll.EnterRagdoll(hitForce);
         }
-        if (agent != null)
+        else
         {
-            agent.enabled = false;
-        }
-
-        foreach (var rb in ragdollBodies)
-        {
-            rb.isKinematic = false;
-            rb.useGravity = true;
+            Destroy(gameObject); // fallback
         }
 
-        if (EnemyManager.Instance != null)
-        {
-            EnemyManager.Instance.EnemyDied();
-        }
-    }
-
-    //Checking Ragdoll state
-    private void SetRagdoll(bool active)
-    {
-        if (animator != null) animator.enabled = !active;
-
-        foreach (var rb in ragdollBodies)
-        {
-            rb.isKinematic = !active;
-            rb.useGravity = active;
-        }
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, hearingRange);
+        // Notify EnemyManager if present
+        EnemyManager.Instance?.EnemyDied(this);
     }
 }

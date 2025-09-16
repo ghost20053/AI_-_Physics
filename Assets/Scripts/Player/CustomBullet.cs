@@ -51,22 +51,18 @@ public class CustomBullet : MonoBehaviour
             Instantiate(explosion, transform.position, Quaternion.identity);
 
         // Check for enemies in range
+        // inside Explode()
         Collider[] enemies = Physics.OverlapSphere(transform.position, explosionRange, whatIsEnemies);
-        foreach (Collider hit in enemies)
+        foreach (Collider enemy in enemies)
         {
-            // Try RagdollHandler (preferred)
-            RagdollHandler ragdoll = hit.GetComponentInParent<RagdollHandler>();
-            if (ragdoll != null && ragdoll.ragdollType == RagdollType.Enemy)
+            Prospector_AI ai = enemy.GetComponent<Prospector_AI>();
+            if (ai != null)
             {
-                Vector3 forceDir = (hit.transform.position - transform.position).normalized;
-                ragdoll.EnterRagdoll(forceDir * explosionForce);
+                Vector3 forceDir = (enemy.transform.position - transform.position).normalized * explosionForce;
+                ai.TakeDamage(explosionDamage, forceDir);
             }
-
-            // Apply explosion force
-            Rigidbody rbHit = hit.GetComponent<Rigidbody>();
-            if (rbHit != null)
-                rbHit.AddExplosionForce(explosionForce, transform.position, explosionRange);
         }
+
 
         Invoke(nameof(DestroyBullet), 0.05f);
     }

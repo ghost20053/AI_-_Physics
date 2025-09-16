@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -64,6 +64,11 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        if (PauseMenu.isPaused)
+        {
+            return; // ⬅️ stop everything when paused
+        }
+
         HandleMovement();
         HandleLook();
         HandleShooting();
@@ -71,6 +76,7 @@ public class Player : MonoBehaviour
         HandleWeaponSwitch();
         HandlePowerUps();
     }
+
 
     // ---------------- Movement ----------------
     private void HandleMovement()
@@ -100,6 +106,8 @@ public class Player : MonoBehaviour
 
     private void HandleLook()
     {
+        if (PauseMenu.isPaused) return; // ⬅️ Stop processing look input when paused
+
         Vector2 mouseDelta = Mouse.current.delta.ReadValue();
         float mouseX = mouseDelta.x * mouseSensitivity;
         float mouseY = mouseDelta.y * mouseSensitivity;
@@ -110,6 +118,7 @@ public class Player : MonoBehaviour
         playerCamera.transform.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
         transform.Rotate(Vector3.up * mouseX);
     }
+
 
     // ---------------- Shooting ----------------
     private void HandleShooting()
