@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -207,52 +208,34 @@ public class Player : MonoBehaviour
     {
         switch (powerUp.type)
         {
-            case PowerUpType.MoreAmmo:
+            case PowerUpType.Ammo:
                 bulletTypes[currentBulletIndex].reserveAmmo += powerUp.ammoAmount;
                 UpdateUI();
-                return;
-        }
+                break;
 
-        if (powerUp.type == PowerUpType.InfiniteAmmo)
-        {
-            infiniteAmmoActive = true;
-        }
-        else if (powerUp.type == PowerUpType.DoubleShot)
-        {
-            multiShotActive = true;
-            extraShots = 2;
-        }
-        else if (powerUp.type == PowerUpType.TripleShot)
-        {
-            multiShotActive = true;
-            extraShots = 3;
-        }
+            case PowerUpType.InfiniteAmmo:
+                infiniteAmmoActive = true;
+                powerUpTimer = powerUp.duration;
 
-        powerUpTimer = powerUp.duration;
-        PowerUpUIManager.Instance.AddPowerUp(powerUp.type, powerUp.icon, powerUp.duration);
+                PowerUpUIManager.Instance?.AddPowerUp(PowerUpType.InfiniteAmmo, powerUp.icon, powerUp.duration);
+                break;
+        }
     }
 
     private void HandlePowerUps()
     {
-        if (powerUpTimer > 0)
+        if (infiniteAmmoActive)
         {
             powerUpTimer -= Time.deltaTime;
             if (powerUpTimer <= 0)
             {
-                if (infiniteAmmoActive)
-                {
-                    PowerUpUIManager.Instance.RemovePowerUp(PowerUpType.InfiniteAmmo);
-                    if (multiShotActive)
-                    {
-                        PowerUpUIManager.Instance.RemovePowerUp(extraShots == 2 ? PowerUpType.DoubleShot : PowerUpType.TripleShot);
-                    }
-                }
                 infiniteAmmoActive = false;
-                multiShotActive = false;
-                extraShots = 1;
+                PowerUpUIManager.Instance?.RemovePowerUp(PowerUpType.InfiniteAmmo);
             }
         }
     }
+
+
 
     // ---------------- UI ----------------
     private void UpdateUI()

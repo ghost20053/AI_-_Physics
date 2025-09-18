@@ -1,21 +1,27 @@
 using UnityEngine;
 
-public enum PowerUpType { MoreAmmo, InfiniteAmmo, DoubleShot, TripleShot }
-
 public class PowerUp : MonoBehaviour
 {
     public PowerUpType type;
-    public int ammoAmount = 30;       // for MoreAmmo
-    public float duration = 10f;      // for timed powerups
-    public Sprite icon;               // icon for UI
+    public int ammoAmount = 30;       // For Ammo pickup
+    public float duration = 5f;       // For InfiniteAmmo
+    public Sprite icon;               // UI icon
+    public GameObject pickupEffect;
 
     private void OnTriggerEnter(Collider other)
     {
-        Player player = other.GetComponent<Player>();
-        if (player != null)
+        if (other.CompareTag("Player"))
         {
-            player.ActivatePowerUp(this);
-            Destroy(gameObject);
+            Player player = other.GetComponent<Player>();
+            if (player != null)
+            {
+                player.ActivatePowerUp(this);
+
+                if (pickupEffect != null)
+                    Instantiate(pickupEffect, transform.position, Quaternion.identity);
+
+                Destroy(gameObject);
+            }
         }
     }
 }

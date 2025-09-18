@@ -1,39 +1,36 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class PowerUpUIManager : MonoBehaviour
 {
     public static PowerUpUIManager Instance { get; private set; }
 
-    public Transform powerUpUIContainer;
-    public GameObject powerUpSlotPrefab;
+    [Header("UI References")]
+    public Transform powerUpContainer;    // Parent object for slots
+    public GameObject powerUpSlotPrefab;  // Prefab with PowerUpUISlot script
 
-    private Dictionary<PowerUpType, PowerUpUISlot> activeSlots = new Dictionary<PowerUpType, PowerUpUISlot>();
+    private Dictionary<PowerUpType, PowerUpUISlot> activeSlots = new();
 
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
     }
 
     public void AddPowerUp(PowerUpType type, Sprite icon, float duration)
     {
         if (activeSlots.ContainsKey(type))
         {
+            // Reset existing slot duration
             activeSlots[type].SetDuration(duration);
             return;
         }
 
-        GameObject slotObj = Instantiate(powerUpSlotPrefab, powerUpUIContainer);
+        GameObject slotObj = Instantiate(powerUpSlotPrefab, powerUpContainer);
         PowerUpUISlot slot = slotObj.GetComponent<PowerUpUISlot>();
         slot.Setup(type, icon, duration);
-        activeSlots[type] = slot;
+
+        activeSlots.Add(type, slot);
     }
 
     public void RemovePowerUp(PowerUpType type)
@@ -47,9 +44,7 @@ public class PowerUpUIManager : MonoBehaviour
 
     public void ToggleUI(bool visible)
     {
-        if (powerUpUIContainer != null)
-        {
-            powerUpUIContainer.gameObject.SetActive(visible);
-        }
+        if (powerUpContainer != null)
+            powerUpContainer.gameObject.SetActive(visible);
     }
 }
