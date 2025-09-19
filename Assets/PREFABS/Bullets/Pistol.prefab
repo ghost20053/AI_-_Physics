@@ -155,9 +155,10 @@ MonoBehaviour:
   whatIsEnemies:
     serializedVersion: 2
     m_Bits: 8
-  bounciness: 0.8
+  bounciness: 0
   useGravity: 1
-  explosionDamage: 20
+  shootForce: 25
+  explosionDamage: 25
   explosionRange: 1
   explosionForce: 0
   maxCollisions: 1
