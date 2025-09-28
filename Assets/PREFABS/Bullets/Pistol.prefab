@@ -160,7 +160,7 @@ MonoBehaviour:
   shootForce: 25
   explosionDamage: 25
   explosionRange: 1
-  explosionForce: 0
+  explosionForce: 25
   maxCollisions: 1
   maxLifetime: 1
   explodeOnTouch: 1

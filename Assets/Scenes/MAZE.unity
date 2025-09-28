@@ -5227,6 +5227,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6840408190207636392, guid: 717cdc5170c18fe47a0bcc405ec11971, type: 3}
+      propertyPath: maxHealth
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6840408190207636392, guid: 717cdc5170c18fe47a0bcc405ec11971, type: 3}
       propertyPath: hearingRange
       value: 76.9
       objectReference: {fileID: 0}
