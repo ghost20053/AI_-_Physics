@@ -1,10 +1,9 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class DestructibleWall : MonoBehaviour
 {
     [Header("Wall Settings")]
-    public GameObject fracturedPrefab;   // Broken version of wall
-    public float destroyDelay = 5f;      // How long before chunks are cleaned up
+    public GameObject fracturedPrefab;   // assign fractured wall prefab
 
     [Header("Health")]
     public int maxHealth = 50;
@@ -15,34 +14,39 @@ public class DestructibleWall : MonoBehaviour
         currentHealth = maxHealth;
     }
 
-    // Called by bullets when hit
+
+    // Called when the wall takes damage (from bullets, explosions, etc.)
+
     public void TakeDamage(int damage, Vector3 hitPoint, Vector3 hitForce)
     {
         currentHealth -= damage;
-
         if (currentHealth <= 0)
         {
-            Break(hitPoint, hitForce);
+            BreakWall(hitPoint, hitForce);
         }
     }
 
-    private void Break(Vector3 hitPoint, Vector3 hitForce)
+    private void BreakWall(Vector3 hitPoint, Vector3 hitForce)
     {
-        // Spawn fractured wall
         if (fracturedPrefab != null)
         {
             GameObject fractured = Instantiate(fracturedPrefab, transform.position, transform.rotation);
+            fractured.transform.localScale = transform.localScale;
 
-            // Apply force to chunks
-            foreach (Rigidbody rb in fractured.GetComponentsInChildren<Rigidbody>())
+            // 🔹 Force all children into "Debris" layer
+            foreach (Transform child in fractured.GetComponentsInChildren<Transform>())
             {
-                rb.AddExplosionForce(hitForce.magnitude * 2f, hitPoint, 5f);
+                child.gameObject.layer = LayerMask.NameToLayer("Debris");
             }
 
-            Destroy(fractured, destroyDelay);
+            // Apply physics forces
+            Rigidbody[] chunks = fractured.GetComponentsInChildren<Rigidbody>();
+            foreach (Rigidbody rb in chunks)
+            {
+                rb.AddExplosionForce(hitForce.magnitude, hitPoint, 5f);
+            }
         }
 
-        // Destroy the original wall
         Destroy(gameObject);
     }
 }

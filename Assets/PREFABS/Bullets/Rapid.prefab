@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 322294954931067404}
   m_Layer: 0
   m_Name: Rapid
-  m_TagString: Untagged
+  m_TagString: PlayerBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -155,9 +155,9 @@ MonoBehaviour:
   whatIsEnemies:
     serializedVersion: 2
     m_Bits: 8
-  bounciness: 1
-  useGravity: 1
   shootForce: 100
+  useGravity: 1
+  bounciness: 1
   explosionDamage: 5
   explosionRange: 1
   explosionForce: 99
