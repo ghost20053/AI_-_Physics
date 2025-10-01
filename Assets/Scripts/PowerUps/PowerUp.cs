@@ -15,7 +15,7 @@ public class PowerUp : MonoBehaviour
             Player player = other.GetComponent<Player>();
             if (player != null)
             {
-                player.ActivatePowerUp(this);
+                //player.ActivatePowerUp(this);
 
                 if (pickupEffect != null)
                     Instantiate(pickupEffect, transform.position, Quaternion.identity);

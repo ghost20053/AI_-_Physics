@@ -5725,8 +5725,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &655302023871419161
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5805,8 +5805,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &929754780737318980
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5885,8 +5885,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &1176549997907691795
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5965,8 +5965,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &1204347450245005814
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6045,8 +6045,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &1521031487533434787
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6125,8 +6125,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &1540439125095604189
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6205,8 +6205,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &1815072014850913905
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6390,8 +6390,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &2078042370576151487
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6527,8 +6527,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &2333448301126698095
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6607,8 +6607,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &2425138008217075379
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6687,8 +6687,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &2563631489074929241
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6767,8 +6767,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &2701731657739364760
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6847,8 +6847,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &2778237895424020740
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6927,8 +6927,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &3036043943644099185
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7007,8 +7007,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &3205900177631986746
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7087,8 +7087,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &3439063544902406181
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7167,8 +7167,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &3509831495895176584
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7247,8 +7247,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &3771137171750301106
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7327,8 +7327,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &3831591875290494712
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7407,8 +7407,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &3873201631708746528
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7487,8 +7487,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &4192817506476237285
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7567,8 +7567,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &4208042025466615924
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7647,8 +7647,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &4231594862187474489
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7727,8 +7727,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &4363384191827802040
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7807,8 +7807,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &4368941172561346823
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7887,8 +7887,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &4545937518924307068
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7967,8 +7967,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &4627580351894073301
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8047,8 +8047,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &4746010335455677855
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8188,8 +8188,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &4940159161888635617
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8268,8 +8268,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &5560229615771277051
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8348,8 +8348,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &5627778187627576375
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8428,8 +8428,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &5659580317890230033
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8508,8 +8508,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &6294950837495554078
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8588,8 +8588,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &6355454565020854364
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8668,8 +8668,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &6391010976188677576
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8845,8 +8845,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &6402979935520977668
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8925,8 +8925,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &6491561738660729404
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9070,8 +9070,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &6674175846396588552
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9150,8 +9150,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &6680065321473173176
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9230,8 +9230,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &6870353504829239437
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9310,8 +9310,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &7209522715966044253
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9390,8 +9390,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &7448522794431173111
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9470,8 +9470,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &7515355770217249068
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9550,8 +9550,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &7640943145759753568
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9630,8 +9630,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &7694380939137082789
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9710,8 +9710,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &7708480041181911649
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9791,7 +9791,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
   destroyDelay: 2
-  maxHealth: 20
+  maxHealth: 100
 --- !u!1001 &7721391583725084093
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9870,8 +9870,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &7842075696381776733
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9950,8 +9950,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1001 &8749144348647183260
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10030,8 +10030,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fracturedPrefab: {fileID: 4661578508727813366, guid: 2ca9f7cc7d241e743a31bea6701d17b6, type: 3}
-  destroyDelay: 2
-  maxHealth: 20
+  destroyDelay: 5
+  maxHealth: 100
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

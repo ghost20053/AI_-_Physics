@@ -3,7 +3,8 @@
 public class DestructibleWall : MonoBehaviour
 {
     [Header("Wall Settings")]
-    public GameObject fracturedPrefab;   // assign fractured wall prefab
+    public GameObject fracturedPrefab;   // assign your broken-wall prefab
+    public float destroyDelay = 5f;      // how long to keep pieces alive
 
     [Header("Health")]
     public int maxHealth = 50;
@@ -15,7 +16,7 @@ public class DestructibleWall : MonoBehaviour
     }
 
 
-    // Called when the wall takes damage (from bullets, explosions, etc.)
+    // Called by bullets or explosion logic when this wall should take damage.
 
     public void TakeDamage(int damage, Vector3 hitPoint, Vector3 hitForce)
     {
@@ -28,25 +29,23 @@ public class DestructibleWall : MonoBehaviour
 
     private void BreakWall(Vector3 hitPoint, Vector3 hitForce)
     {
+        // Spawn fractured version
         if (fracturedPrefab != null)
         {
             GameObject fractured = Instantiate(fracturedPrefab, transform.position, transform.rotation);
-            fractured.transform.localScale = transform.localScale;
 
-            // 🔹 Force all children into "Debris" layer
-            foreach (Transform child in fractured.GetComponentsInChildren<Transform>())
-            {
-                child.gameObject.layer = LayerMask.NameToLayer("Debris");
-            }
-
-            // Apply physics forces
+            // Apply explosion / hit force to chunks
             Rigidbody[] chunks = fractured.GetComponentsInChildren<Rigidbody>();
             foreach (Rigidbody rb in chunks)
             {
-                rb.AddExplosionForce(hitForce.magnitude, hitPoint, 5f);
+                rb.AddExplosionForce(hitForce.magnitude * 2f, hitPoint, 5f);
             }
+
+            // Clean up fractured pieces after a delay
+            //Destroy(fractured, destroyDelay);
         }
 
+        // Destroy original wall
         Destroy(gameObject);
     }
 }

@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 7631948655975982275}
   m_Layer: 0
   m_Name: Prospector
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -126,16 +126,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99735e4f848f5644693fdf8359b87732, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 100
   patrolRadius: 10
   patrolWaitTime: 2
   hearingRange: 30
+  attackRange: 20
   projectilePrefab: {fileID: 5680938363587573523, guid: 0c01de3093376c84ab7b66b1855988b5, type: 3}
   projectileSpawnPoint: {fileID: 6557828739384018605}
   projectileForce: 20
   fireRate: 0.5
-  projectileSound: {fileID: 8300000, guid: 1094e88abb7719f4f8b97d27c3ab5b4c, type: 3}
-  soundVolume: 1
-  maxHealth: 100
 --- !u!195 &6078887777771920360
 NavMeshAgent:
   m_ObjectHideFlags: 0
