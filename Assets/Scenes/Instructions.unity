@@ -861,9 +861,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'You are stuck in a maze with enmeies that shoot projectiles. The objective
+  m_text: You are stuck in a maze with enmeies that shoot projectiles. The objective
     of the game is to survive until the time runs out by evading the enemies to the
-    best of your ability. '
+    best of your ability. Use your projectiles to kill them or knock them back, survive
+    until timer runs out.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -928,7 +929,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -684.02625, y: 0, z: -301.4386, w: -396.2059}
+  m_margin: {x: -843.1227, y: 0, z: -498.50342, w: -396.2059}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1140,7 +1141,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "W - Forward           \tA - Left\nS - Back                  D - Right\nSpace
-    - Jump        Shift - Sprint\nMouse - To Look Around"
+    - Jump        Shift - Sprint\nMouse - To Look Around \n0, 1, 2 to switch between
+    weapons\nLeft Mouse Button to Shoot"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1205,7 +1207,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -1049.9478, y: 137.2215, z: 334.544, w: -485.76907}
+  m_margin: {x: -1403.9708, y: 137.2215, z: 35.797546, w: -485.76907}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
