@@ -10,7 +10,6 @@ public class BulletType
     public Sprite icon;             // Icon for UI
     public int magazineSize = 30;   // How many per mag
     public int bulletsLeft;         // Bullets currently in mag
-    public int reserveAmmo = 90;    // Ammo available for reloading
     public int damage = 20;         // NEW: damage this bullet does
 }
 
@@ -35,12 +34,7 @@ public class Player : MonoBehaviour
     private int currentBulletIndex = 0;
     public float fireRate = 0.2f;
     private float nextFireTime = 0f;
-
-    [Header("PowerUps")]
-    private bool infiniteAmmoActive = false;
-    private bool multiShotActive = false;
     private int extraShots = 1;  // 1 = normal, 2 = double, 3 = triple
-    private float powerUpTimer = 0f;
 
     private void Start()
     {
@@ -75,7 +69,6 @@ public class Player : MonoBehaviour
         HandleShooting();
         HandleReload();
         HandleWeaponSwitch();
-        HandlePowerUps();
     }
 
 
@@ -128,7 +121,7 @@ public class Player : MonoBehaviour
         {
             BulletType bullet = bulletTypes[currentBulletIndex];
 
-            if (infiniteAmmoActive || bullet.bulletsLeft > 0)
+            if (bullet.bulletsLeft > 0) // ✅ Only check magazine
             {
                 nextFireTime = Time.time + fireRate;
 
@@ -137,15 +130,12 @@ public class Player : MonoBehaviour
                     ShootBullet(bullet);
                 }
 
-                if (!infiniteAmmoActive)
-                {
-                    bullet.bulletsLeft--;
-                }
-
+                bullet.bulletsLeft--; // ✅ Still consume mag bullets
                 UpdateUI();
             }
         }
     }
+
 
     private void ShootBullet(BulletType bullet)
     {
@@ -175,13 +165,13 @@ public class Player : MonoBehaviour
         if (Keyboard.current.rKey.wasPressedThisFrame)
         {
             BulletType bullet = bulletTypes[currentBulletIndex];
+
+            // ✅ Always refill mag to max
             int needed = bullet.magazineSize - bullet.bulletsLeft;
 
-            if (needed > 0 && bullet.reserveAmmo > 0)
+            if (needed > 0)
             {
-                int toLoad = Mathf.Min(needed, bullet.reserveAmmo);
-                bullet.reserveAmmo -= toLoad;
-                bullet.bulletsLeft += toLoad;
+                bullet.bulletsLeft = bullet.magazineSize;
                 UpdateUI();
             }
         }
@@ -202,40 +192,6 @@ public class Player : MonoBehaviour
 
         UpdateUI();
     }
-
-    // ---------------- PowerUps ----------------
-    public void ActivatePowerUp(PowerUp powerUp)
-    {
-        switch (powerUp.type)
-        {
-            case PowerUpType.Ammo:
-                bulletTypes[currentBulletIndex].reserveAmmo += powerUp.ammoAmount;
-                UpdateUI();
-                break;
-
-            case PowerUpType.InfiniteAmmo:
-                infiniteAmmoActive = true;
-                powerUpTimer = powerUp.duration;
-
-                PowerUpUIManager.Instance?.AddPowerUp(PowerUpType.InfiniteAmmo, powerUp.icon, powerUp.duration);
-                break;
-        }
-    }
-
-    private void HandlePowerUps()
-    {
-        if (infiniteAmmoActive)
-        {
-            powerUpTimer -= Time.deltaTime;
-            if (powerUpTimer <= 0)
-            {
-                infiniteAmmoActive = false;
-                PowerUpUIManager.Instance?.RemovePowerUp(PowerUpType.InfiniteAmmo);
-            }
-        }
-    }
-
-
 
     // ---------------- UI ----------------
     private void UpdateUI()

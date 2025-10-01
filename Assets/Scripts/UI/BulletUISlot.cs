@@ -16,21 +16,30 @@ public class BulletUISlot : MonoBehaviour
         currentBullet = bullet;
 
         if (iconImage != null && bullet.icon != null)
+        {
             iconImage.sprite = bullet.icon;
+        }
 
         UpdateSlot(bullet, false);
     }
 
     public void UpdateSlot(BulletType bullet, bool isActive)
     {
-        if (bullet == null) return;
+        if (bullet == null)
+        {
+            return;
+        }
 
         // Update ammo UI
         if (ammoText != null)
-            ammoText.text = $"{bullet.bulletsLeft} / {bullet.reserveAmmo}";
+        {
+            ammoText.text = $"{bullet.bulletsLeft} / {bullet.bulletsLeft}";
+        }
 
         // Highlight if active
         if (highlight != null)
+        {
             highlight.enabled = isActive;
+        }
     }
 }
